@@ -1,0 +1,42 @@
+@import '../../styles/variables.scss';
+
+.wrapper {
+  display: flex;
+  max-width: 1440px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: -1rem !important;
+}
+
+.links {
+  width: 33%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.buttons {
+  width: 33%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  button {
+    margin-right: 0.5rem !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+}
