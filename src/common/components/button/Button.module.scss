@@ -1,0 +1,71 @@
+@import '../../styles/variables.scss';
+
+%base {
+  font-size: 0.8rem;
+  padding: 0.5em 2em;
+  border: 1px solid transparent;
+  border-radius: 2rem;
+  font-weight: 500;
+  font-family: inherit;
+  box-shadow: $box-shadow;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.primary {
+  @extend %base;
+  background-color: white;
+  color: white;
+  background-image: linear-gradient(
+    to right,
+    $secondary-color 0%,
+    $primary-color 100%
+  );
+  background-size: 200% auto;
+}
+
+.primary:hover {
+  text-decoration: none;
+  background-position: right center;
+  background-image: linear-gradient(
+    to right,
+    $secondary-color-hover 0%,
+    $primary-color-hover 100%
+  );
+}
+
+.secondary {
+  @extend %base;
+  color: black;
+  background-color: white;
+}
+
+.tertiary {
+}
+
+@media (prefers-color-scheme: dark) {
+  .secondary {
+    background-color: $secondary-color-dark-mode;
+    color: white;
+  }
+
+  .secondary:hover {
+    background-color: $secondary-color-dark-mode-hover;
+  }
+
+  .primary {
+    background-image: linear-gradient(
+      to right,
+      $secondary-color 0%,
+      $primary-color-dark-mode 100%
+    );
+  }
+
+  .primary:hover {
+    background-image: linear-gradient(
+      to right,
+      $secondary-color 0%,
+      $primary-color-dark-mode-hover 100%
+    );
+  }
+}

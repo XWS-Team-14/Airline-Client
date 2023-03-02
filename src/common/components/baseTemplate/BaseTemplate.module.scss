@@ -1,0 +1,25 @@
+@import '../../styles/variables.scss';
+
+.layout {
+  height: 100vh;
+}
+
+.contentLayout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    background-color: $nav-bar-dark !important;
+    a {
+      color: white;
+    }
+  }
+
+  .contentLayout {
+    background-color: $content-dark;
+  }
+}
