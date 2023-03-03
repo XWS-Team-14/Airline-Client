@@ -5,7 +5,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 To install all the dependencies, run the command
 ```bash
 yarn
-```.
+```
+
 
 First, run the development server:
 
