@@ -10,11 +10,24 @@ import styles from '../styles/auth.module.scss';
 const SignUp = () => {
   const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
   return (
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Welcome!</h1>
-        <Form form={form} className={styles.loginForm}>
+        <Form
+          form={form}
+          className={styles.loginForm}
+          autoComplete="off"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
           <Form.Item
             name="first-name"
             rules={[{ required: true, message: 'First name is required.' }]}
