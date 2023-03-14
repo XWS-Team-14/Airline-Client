@@ -1,14 +1,14 @@
 import BaseTemplate from '@/common/components/baseTemplate/BaseTemplate';
-import Login from '@/features/auth/components/Login';
+import SignUp from '@/features/auth/components/SignUp';
 
-const LoginPage = () => {
+const SignUpPage = () => {
   return (
     <>
       <BaseTemplate>
-        <Login />
+        <SignUp />
       </BaseTemplate>
     </>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

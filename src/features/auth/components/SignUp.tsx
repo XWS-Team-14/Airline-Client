@@ -5,16 +5,36 @@ import { Form, Input } from 'antd';
 import Link from 'next/link';
 
 import { useState } from 'react';
-import styles from './Login.module.scss';
+import styles from '../styles/auth.module.scss';
 
-const Login = () => {
+const SignUp = () => {
   const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
   return (
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
-        <h1 className={styles.title}>Welcome back!</h1>
-        <Form className={styles.loginForm}>
+        <h1 className={styles.title}>Welcome!</h1>
+        <Form form={form} className={styles.loginForm}>
+          <Form.Item
+            name="first-name"
+            rules={[{ required: true, message: 'First name is required.' }]}
+          >
+            <Input
+              className={styles.inputField}
+              prefix={<UserOutlined />}
+              placeholder="First name"
+            />
+          </Form.Item>
+          <Form.Item
+            name="last-name"
+            rules={[{ required: true, message: 'Last name is required.' }]}
+          >
+            <Input
+              className={styles.inputField}
+              prefix={<UserOutlined />}
+              placeholder="Last name"
+            />
+          </Form.Item>
           <Form.Item
             name="email"
             rules={[
@@ -31,6 +51,7 @@ const Login = () => {
               placeholder="Email"
             />
           </Form.Item>
+
           <Form.Item
             name="password"
             rules={[{ required: true, message: 'Password is required.' }]}
@@ -46,12 +67,27 @@ const Login = () => {
               }}
             />
           </Form.Item>
+          <Form.Item
+            name="password-confirm"
+            rules={[{ required: true, message: 'Password is required.' }]}
+          >
+            <Input.Password
+              className={styles.inputField}
+              prefix={<LockOutlined />}
+              type="password"
+              placeholder="Confirm password"
+              visibilityToggle={{
+                visible: passwordVisible,
+                onVisibleChange: setPasswordVisible,
+              }}
+            />
+          </Form.Item>
           <Form.Item className={styles.submit}>
-            <Button type="primary" text="Log in" style={{ width: '100%' }} />
+            <Button type="primary" text="Sign up" style={{ width: '100%' }} />
             <p>
-              Don`t have an account?{' '}
+              Already have an account?{' '}
               <b>
-                <Link href="/signup">Sign up here!</Link>
+                <Link href="/login">Log in here!</Link>
               </b>
             </p>
           </Form.Item>
@@ -61,4 +97,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
