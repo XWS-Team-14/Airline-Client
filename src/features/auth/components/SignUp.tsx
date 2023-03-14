@@ -29,15 +29,9 @@ const SignUp = () => {
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Welcome!</h1>
-        <Form
-          form={form}
-          className={styles.loginForm}
-          autoComplete="off"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-        >
+        <Form form={form} className={styles.loginForm}>
           <Form.Item
-            name="firstName"
+            name="first-name"
             rules={[{ required: true, message: 'First name is required.' }]}
           >
             <Input
@@ -47,7 +41,7 @@ const SignUp = () => {
             />
           </Form.Item>
           <Form.Item
-            name="lastName"
+            name="last-name"
             rules={[{ required: true, message: 'Last name is required.' }]}
           >
             <Input
