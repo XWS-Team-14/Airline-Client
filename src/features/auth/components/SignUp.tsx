@@ -7,15 +7,16 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { register } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
+import RegisterDto from '../types/RegisterDto';
 
 const SignUp = () => {
   const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const onFinish = (values: any) => {
+  const onFinish = (values: RegisterDto) => {
     console.log('Success:', values);
     register({
-      first_name: values.firstName,
-      last_name: values.lastName,
+      first_name: values.first_name,
+      last_name: values.last_name,
       email: values.email,
       password1: values.password1,
       password2: values.password2,
@@ -37,7 +38,7 @@ const SignUp = () => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            name="firstName"
+            name="first_name"
             rules={[{ required: true, message: 'First name is required.' }]}
           >
             <Input
@@ -47,7 +48,7 @@ const SignUp = () => {
             />
           </Form.Item>
           <Form.Item
-            name="lastName"
+            name="last_name"
             rules={[{ required: true, message: 'Last name is required.' }]}
           >
             <Input

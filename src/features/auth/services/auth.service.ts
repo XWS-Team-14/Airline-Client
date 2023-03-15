@@ -1,13 +1,8 @@
 import api from '@/common/utils/axiosInstance';
 import Router from 'next/router';
+import LoginDto from '../types/LoginDto';
+import RegisterDto from '../types/RegisterDto';
 
-interface RegisterDto {
-  first_name: string;
-  last_name: string;
-  email: string;
-  password1: string;
-  password2: string;
-}
 export const register = (dto: RegisterDto) => {
   api
     .post('/api/auth/register/', dto)
@@ -16,4 +11,12 @@ export const register = (dto: RegisterDto) => {
       Router.replace('/example');
     })
     .catch((err) => console.log(err));
+};
+
+export const login = (dto: LoginDto) => {
+  api.post('/api/auth/login/', dto).then((res) => {
+    console.log(res);
+    Router.replace('/example');
+    localStorage.setItem('jwt', res.data.access_token);
+  });
 };

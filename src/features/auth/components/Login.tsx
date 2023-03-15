@@ -5,16 +5,36 @@ import { Form, Input } from 'antd';
 import Link from 'next/link';
 
 import { useState } from 'react';
+import { login } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
+import LoginDto from '../types/LoginDto';
 
 const Login = () => {
   const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const onFinish = (values: LoginDto) => {
+    console.log('Success:', values);
+    login({
+      email: values.email,
+      password: values.password,
+    });
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Welcome back!</h1>
-        <Form form={form} className={styles.loginForm}>
+        <Form
+          form={form}
+          className={styles.loginForm}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
           <Form.Item
             name="email"
             rules={[
