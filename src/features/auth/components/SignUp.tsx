@@ -28,11 +28,18 @@ const SignUp = () => {
     })
       .then((res) => router.push('/example'))
       .catch((err) => {
-        err.response.data.non_field_errors.map((error: string) => {
-          toast.error(error, {
+        if (err.response.data.non_field_errors) {
+          err.response.data.non_field_errors.map((error: string) => {
+            toast.error(error, {
+              theme: getThemePreference(),
+            });
+          });
+        }
+        if (err.response.data.email) {
+          toast.error(err.response.data.email[0], {
             theme: getThemePreference(),
           });
-        });
+        }
       });
   };
 
