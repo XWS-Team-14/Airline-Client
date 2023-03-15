@@ -37,7 +37,7 @@ const SignUp = () => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            name="first-name"
+            name="firstName"
             rules={[{ required: true, message: 'First name is required.' }]}
           >
             <Input
@@ -47,7 +47,7 @@ const SignUp = () => {
             />
           </Form.Item>
           <Form.Item
-            name="last-name"
+            name="lastName"
             rules={[{ required: true, message: 'Last name is required.' }]}
           >
             <Input
