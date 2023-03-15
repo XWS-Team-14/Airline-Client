@@ -28,7 +28,7 @@ const Login = () => {
         router.replace('/example');
       })
       .catch((err) => {
-        err.response.data.non_field_errors.map((error) => {
+        err.response.data.non_field_errors.map((error: string) => {
           toast.error(error, {
             theme: getThemePreference(),
           });

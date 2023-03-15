@@ -28,7 +28,11 @@ const SignUp = () => {
     })
       .then((res) => router.push('/example'))
       .catch((err) => {
-        console.log(err.response.data);
+        err.response.data.non_field_errors.map((error: string) => {
+          toast.error(error, {
+            theme: getThemePreference(),
+          });
+        });
       });
   };
 
