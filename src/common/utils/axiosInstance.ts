@@ -16,7 +16,19 @@ const api = axios.create({
     },
   ],
 });
+const errorHandler = (error: any) => {
+  const statusCode = error.response?.status;
 
+  if (statusCode && statusCode !== 401) {
+    console.error(error);
+  }
+
+  return Promise.reject(error);
+};
+
+api.interceptors.response.use(undefined, (error) => {
+  return errorHandler(error);
+});
 /*import store from '../../store/store';
 
 const listener = () => {

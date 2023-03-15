@@ -4,7 +4,10 @@ import { Form, Input } from 'antd';
 
 import Link from 'next/link';
 
+import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { login } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
 import LoginDto from '../types/LoginDto';
@@ -12,13 +15,22 @@ import LoginDto from '../types/LoginDto';
 const Login = () => {
   const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const router = useRouter();
 
   const onFinish = (values: LoginDto) => {
-    console.log('Success:', values);
     login({
       email: values.email,
       password: values.password,
-    });
+    })
+      .then((res) => {
+        localStorage.setItem('jwt', res.data.access_token);
+        router.replace('/example');
+      })
+      .catch((err) => {
+        toast.error(err.response.data.non_field_errors[0], {
+          theme: 'dark',
+        });
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -27,6 +39,7 @@ const Login = () => {
 
   return (
     <section className={styles.pageWrapper}>
+      <ToastContainer />
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Welcome back!</h1>
         <Form

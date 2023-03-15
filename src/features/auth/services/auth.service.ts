@@ -13,12 +13,8 @@ export const register = (dto: RegisterDto) => {
     .catch((err) => console.log(err));
 };
 
-export const login = (dto: LoginDto) => {
-  api.post('/api/auth/login/', dto).then((res) => {
-    console.log(res);
-    Router.replace('/example');
-    localStorage.setItem('jwt', res.data.access_token);
-  });
+export const login = async (dto: LoginDto) => {
+  return await api.post('/api/auth/login/', dto);
 };
 
 export const logout = () => {
