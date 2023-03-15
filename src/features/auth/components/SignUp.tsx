@@ -5,6 +5,7 @@ import { Form, Input } from 'antd';
 import Link from 'next/link';
 
 import { useState } from 'react';
+import { register } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
 
 const SignUp = () => {
@@ -12,6 +13,13 @@ const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const onFinish = (values: any) => {
     console.log('Success:', values);
+    register({
+      first_name: values.firstName,
+      last_name: values.lastName,
+      email: values.email,
+      password1: values.password1,
+      password2: values.password2,
+    });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -29,7 +37,7 @@ const SignUp = () => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            name="first-name"
+            name="firstName"
             rules={[{ required: true, message: 'First name is required.' }]}
           >
             <Input
@@ -39,7 +47,7 @@ const SignUp = () => {
             />
           </Form.Item>
           <Form.Item
-            name="last-name"
+            name="lastName"
             rules={[{ required: true, message: 'Last name is required.' }]}
           >
             <Input
@@ -66,7 +74,7 @@ const SignUp = () => {
           </Form.Item>
 
           <Form.Item
-            name="password"
+            name="password1"
             rules={[{ required: true, message: 'Password is required.' }]}
           >
             <Input.Password
@@ -81,7 +89,7 @@ const SignUp = () => {
             />
           </Form.Item>
           <Form.Item
-            name="password-confirm"
+            name="password2"
             rules={[{ required: true, message: 'Password is required.' }]}
           >
             <Input.Password
