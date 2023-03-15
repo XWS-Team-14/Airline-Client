@@ -3,14 +3,8 @@ import Router from 'next/router';
 import LoginDto from '../types/LoginDto';
 import RegisterDto from '../types/RegisterDto';
 
-export const register = (dto: RegisterDto) => {
-  api
-    .post('/api/auth/register/', dto)
-    .then((res) => {
-      console.log(res);
-      Router.replace('/example');
-    })
-    .catch((err) => console.log(err));
+export const register = async (dto: RegisterDto) => {
+  return await api.post('/api/auth/register/', dto);
 };
 
 export const login = async (dto: LoginDto) => {
