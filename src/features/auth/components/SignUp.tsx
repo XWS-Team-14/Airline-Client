@@ -2,10 +2,11 @@ import Button from '@/common/components/button/Button';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input } from 'antd';
 import { useRouter } from 'next/dist/client/router';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 import Link from 'next/link';
 
+import getThemePreference from '@/common/utils/getThemePreference';
 import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { register } from '../services/auth.service';
@@ -33,11 +34,16 @@ const SignUp = () => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+    errorInfo.errorFields.map((error: any) => {
+      toast.error(error.errors[0], {
+        theme: getThemePreference(),
+      });
+    });
   };
   return (
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
-        <ToastContainer newestOnTop />
+        <ToastContainer />
         <h1 className={styles.title}>Welcome!</h1>
         <Form
           form={form}
