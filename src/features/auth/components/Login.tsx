@@ -28,14 +28,21 @@ const Login = () => {
         router.replace('/example');
       })
       .catch((err) => {
-        toast.error(err.response.data.non_field_errors[0], {
-          theme: getThemePreference(),
+        err.response.data.non_field_errors.map((error) => {
+          toast.error(error, {
+            theme: getThemePreference(),
+          });
         });
       });
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+    errorInfo.errorFields.map((error: any) => {
+      toast.error(error.errors[0], {
+        theme: getThemePreference(),
+      });
+    });
   };
 
   return (
