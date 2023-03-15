@@ -90,7 +90,7 @@ const Login = () => {
           <Form.Item className={styles.submit}>
             <Button type="primary" text="Log in" style={{ width: '100%' }} />
             <p>
-              Don`t have an account?{' '}
+              Don&apos;t have an account?{' '}
               <b>
                 <Link href="/signup">Sign up here!</Link>
               </b>
