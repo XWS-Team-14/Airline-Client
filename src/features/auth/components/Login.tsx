@@ -1,4 +1,5 @@
 import Button from '@/common/components/button/Button';
+import getThemePreference from '@/common/utils/getThemePreference';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input } from 'antd';
 
@@ -28,7 +29,7 @@ const Login = () => {
       })
       .catch((err) => {
         toast.error(err.response.data.non_field_errors[0], {
-          theme: 'dark',
+          theme: getThemePreference(),
         });
       });
   };
