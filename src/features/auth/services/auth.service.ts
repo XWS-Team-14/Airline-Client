@@ -20,3 +20,14 @@ export const login = (dto: LoginDto) => {
     localStorage.setItem('jwt', res.data.access_token);
   });
 };
+
+export const logout = () => {
+  api.post('/api/auth/logout/').then(() => {
+    Router.replace('/');
+    localStorage.removeItem('jwt');
+  });
+};
+
+export const isLoggedIn = () => {
+  return typeof window !== 'undefined' && !!localStorage.getItem('jwt');
+};

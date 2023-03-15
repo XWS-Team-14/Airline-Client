@@ -20,8 +20,8 @@ const EmailSent = () => {
             make sure to check your <i>Spam</i> or <i>Junk</i> folder as well.
           </p>
           <p>
-            If the email entered is wrong or you can't find the email, you can
-            request to resend the verification email here.
+            If the email entered is wrong or you can&#39;t find the email, you
+            can request to resend the verification email here.
           </p>
         </div>
       </div>
