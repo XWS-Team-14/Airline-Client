@@ -5,7 +5,7 @@ import { Form, Input } from 'antd';
 import Link from 'next/link';
 
 import { useState } from 'react';
-import styles from './Login.module.scss';
+import styles from '../styles/auth.module.scss';
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -14,7 +14,7 @@ const Login = () => {
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Welcome back!</h1>
-        <Form className={styles.loginForm}>
+        <Form form={form} className={styles.loginForm}>
           <Form.Item
             name="email"
             rules={[

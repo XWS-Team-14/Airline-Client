@@ -1,14 +1,14 @@
 import BaseTemplate from '@/common/components/baseTemplate/BaseTemplate';
-import Login from '@/features/auth/components/Login';
+import EmailSent from '@/features/auth/components/EmailSent';
 
-const LoginPage = () => {
+const EmailSentPage = () => {
   return (
     <>
       <BaseTemplate>
-        <Login />
+        <EmailSent />
       </BaseTemplate>
     </>
   );
 };
 
-export default LoginPage;
+export default EmailSentPage;
