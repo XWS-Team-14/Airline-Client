@@ -1,33 +1,60 @@
 import Button from '@/common/components/button/Button';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input } from 'antd';
+import { useRouter } from 'next/dist/client/router';
+import { toast, ToastContainer } from 'react-toastify';
 
 import Link from 'next/link';
 
+import getThemePreference from '@/common/utils/getThemePreference';
 import { useState } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 import { register } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
+import RegisterDto from '../types/RegisterDto';
 
 const SignUp = () => {
   const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const onFinish = (values: any) => {
+  const router = useRouter();
+  const onFinish = (values: RegisterDto) => {
     console.log('Success:', values);
     register({
-      first_name: values.firstName,
-      last_name: values.lastName,
+      first_name: values.first_name,
+      last_name: values.last_name,
       email: values.email,
       password1: values.password1,
       password2: values.password2,
-    });
+    })
+      .then((res) => router.push('/example'))
+      .catch((err) => {
+        if (err.response.data.non_field_errors) {
+          err.response.data.non_field_errors.map((error: string) => {
+            toast.error(error, {
+              theme: getThemePreference(),
+            });
+          });
+        }
+        if (err.response.data.email) {
+          toast.error(err.response.data.email[0], {
+            theme: getThemePreference(),
+          });
+        }
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+    errorInfo.errorFields.map((error: any) => {
+      toast.error(error.errors[0], {
+        theme: getThemePreference(),
+      });
+    });
   };
   return (
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
+        <ToastContainer />
         <h1 className={styles.title}>Welcome!</h1>
         <Form
           form={form}
@@ -37,7 +64,8 @@ const SignUp = () => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            name="firstName"
+            hasFeedback
+            name="first_name"
             rules={[{ required: true, message: 'First name is required.' }]}
           >
             <Input
@@ -47,7 +75,8 @@ const SignUp = () => {
             />
           </Form.Item>
           <Form.Item
-            name="lastName"
+            hasFeedback
+            name="last_name"
             rules={[{ required: true, message: 'Last name is required.' }]}
           >
             <Input
@@ -57,6 +86,7 @@ const SignUp = () => {
             />
           </Form.Item>
           <Form.Item
+            hasFeedback
             name="email"
             rules={[
               { required: true, message: 'Email is required.' },
@@ -74,8 +104,16 @@ const SignUp = () => {
           </Form.Item>
 
           <Form.Item
+            hasFeedback
             name="password1"
-            rules={[{ required: true, message: 'Password is required.' }]}
+            rules={[
+              { required: true, message: 'Password is required.' },
+              {
+                min: 8,
+                message:
+                  'Password is too short. It must be at least 8 characters.',
+              },
+            ]}
           >
             <Input.Password
               className={styles.inputField}
@@ -90,7 +128,19 @@ const SignUp = () => {
           </Form.Item>
           <Form.Item
             name="password2"
-            rules={[{ required: true, message: 'Password is required.' }]}
+            hasFeedback
+            dependencies={['password1']}
+            rules={[
+              { required: true, message: 'Password is required.' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password1') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('Passwords do not match.'));
+                },
+              }),
+            ]}
           >
             <Input.Password
               className={styles.inputField}
