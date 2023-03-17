@@ -14,10 +14,18 @@ export const login = async (dto: LoginDto) => {
 export const logout = () => {
   api.post('/api/auth/logout/').then(() => {
     Router.replace('/');
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('loggedIn');
+    api.defaults.headers.common.Authorization = '';
   });
 };
 
+export const refresh = async () => {
+  return api.post('api/auth/token/refresh/');
+};
+
+export const verifyToken = async () => {
+  return api.post('api/auth/token/verify/');
+};
 export const isLoggedIn = () => {
-  return typeof window !== 'undefined' && !!localStorage.getItem('jwt');
+  return typeof window !== 'undefined' && !!localStorage.getItem('loggedIn');
 };

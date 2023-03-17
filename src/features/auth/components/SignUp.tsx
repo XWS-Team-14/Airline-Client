@@ -54,7 +54,6 @@ const SignUp = () => {
   return (
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
-        <ToastContainer />
         <h1 className={styles.title}>Welcome!</h1>
         <Form
           form={form}
