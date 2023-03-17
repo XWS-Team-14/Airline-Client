@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
