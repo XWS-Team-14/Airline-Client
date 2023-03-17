@@ -4,6 +4,7 @@ import { ConfigProvider, theme } from 'antd';
 import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import '../common/styles/globals.scss';
+import { ToastContainer } from 'react-toastify';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [preference, setPreference] = useState<ThemePreference>();
@@ -28,6 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
           preference === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
       }}
     >
+      <ToastContainer />
       <Component {...pageProps} />
     </ConfigProvider>
   );

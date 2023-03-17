@@ -1,7 +1,9 @@
-import axios from 'axios';
+import { refresh } from '@/features/auth/services/auth.service';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 const api = axios.create({
   baseURL: 'http://localhost:8000',
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -29,13 +31,38 @@ const errorHandler = (error: any) => {
 api.interceptors.response.use(undefined, (error) => {
   return errorHandler(error);
 });
-/*import store from '../../store/store';
-
-const listener = () => {
-  const token = store.getState().token;
-  api.defaults.headers.common.Authorization = token;
-};
-
-store.subscribe(listener);*/
 
 export default api;
+
+const onResponse = (response: AxiosResponse): AxiosResponse => {
+  return response;
+};
+
+const onResponseError = async (error: AxiosError): Promise<AxiosError> => {
+  if (error.response) {
+    console.log(error);
+    if (
+      error.response.status === 401 &&
+      error.response.data.code &&
+      error.response.data.code === 'token_not_valid'
+    ) {
+      console.log(error.response);
+      try {
+        refresh().then(
+          (res) =>
+            (api.defaults.headers.common.Authorization = res.data.access_token)
+        );
+      } catch (_error) {
+        return Promise.reject(_error);
+      }
+    }
+  }
+  return Promise.reject(error);
+};
+
+const setupInterceptorsTo = (axiosInstance: AxiosInstance): AxiosInstance => {
+  axiosInstance.interceptors.response.use(onResponse, onResponseError);
+  return axiosInstance;
+};
+
+setupInterceptorsTo(api);

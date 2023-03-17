@@ -1,4 +1,5 @@
 import Button from '@/common/components/button/Button';
+import api from '@/common/utils/axiosInstance';
 import getThemePreference from '@/common/utils/getThemePreference';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input } from 'antd';
@@ -7,7 +8,7 @@ import Link from 'next/link';
 
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
@@ -17,15 +18,16 @@ const Login = () => {
   const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
-
   const onFinish = (values: LoginDto) => {
     login({
       email: values.email,
       password: values.password,
     })
       .then((res) => {
-        localStorage.setItem('jwt', res.data.access_token);
-        router.replace('/example');
+        localStorage.setItem('loggedIn', 'true');
+        api.defaults.headers.common.Authorization =
+          'Bearer ' + res.data.access_token;
+        router.replace('/');
       })
       .catch((err) => {
         err.response.data.non_field_errors.map((error: string) => {
