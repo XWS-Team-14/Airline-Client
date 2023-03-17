@@ -46,11 +46,11 @@ const onResponseError = async (error: AxiosError): Promise<AxiosError> => {
       error.response.data.code &&
       error.response.data.code === 'token_not_valid'
     ) {
-      console.log(error.response);
       try {
         refresh().then(
           (res) =>
-            (api.defaults.headers.common.Authorization = res.data.access_token)
+            (api.defaults.headers.common.Authorization =
+              'Bearer ' + res.data.access)
         );
       } catch (_error) {
         return Promise.reject(_error);
