@@ -1,0 +1,46 @@
+.wrapper {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: -100px;
+  }
+  .pageWrapper {
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    position: relative;
+    height: calc(100vh - 4rem);
+  }
+  .flightCard{
+    width: 70%;
+    height: 10%;
+    border: 3px solid lightblue; 
+    border-radius: 15px;
+    padding: 10px;
+    text-align: center;
+  }
+  .flightCard:hover{
+    border: 3px solid mediumslateblue;
+  }
+  .flightCard:focus{
+    transition-duration: 0.4s;
+    height: 50%;
+    position: fixed;  
+   
+  }
+  .flightCard .flightCardContent{
+    text-align: center;
+    padding: 10px;
+  }
+  .flightCard:focus .flightCardContent{
+    content:attr(data-focus);
+    transition-duration: 0.4s;
+    transform: scale(3.0)
+  }
+  
+ 
