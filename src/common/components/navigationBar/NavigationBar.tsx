@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import Logo from '../../../assets/images/favicon.ico';
+import Logo from '../../../assets/images/logo.png';
 import Button from '../button/Button';
 import NavigationLink from '../navigationLink/NavigationLink';
 import styles from './NavigationBar.module.scss';
@@ -21,7 +21,7 @@ const NavigationBar = () => {
             height={512}
             quality={100}
             alt="logo"
-            style={{ maxWidth: '36px', height: 'auto' }}
+            style={{ maxWidth: '84px', height: 'auto' }}
           />
         </Link>
       </div>

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   experimental: {
     fontLoaders: [
       { loader: 'next/font/google', options: { subsets: ['latin'] } },

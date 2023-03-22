@@ -7,6 +7,7 @@
   justify-content: space-between;
   align-items: center;
   margin-right: -1rem !important;
+  background-color: transparent;
 }
 
 .links {
@@ -21,10 +22,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   a {
     display: flex;
     justify-content: center;
     align-items: center;
+    img {
+      user-drag: none;
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
   }
 }
 
