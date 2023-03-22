@@ -26,7 +26,7 @@ const SignUp = () => {
       password1: values.password1,
       password2: values.password2,
     })
-      .then((res) => router.push('/example'))
+      .then((res) => router.push('/'))
       .catch((err) => {
         if (err.response.data.non_field_errors) {
           err.response.data.non_field_errors.map((error: string) => {
