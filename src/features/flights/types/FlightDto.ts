@@ -1,4 +1,5 @@
 export default interface FlightDto {
+    id: string;
     route: any;
     date_of_departure: string;
     ticket_price: number;
