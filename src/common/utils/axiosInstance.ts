@@ -1,6 +1,9 @@
 import { refresh } from '@/features/auth/services/auth.service';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
-
+interface ErrorResponse {
+  detail: string;
+  code: string;
+}
 const api = axios.create({
   baseURL: 'http://localhost:8000',
   withCredentials: true,
@@ -38,7 +41,9 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
   return response;
 };
 
-const onResponseError = async (error: AxiosError): Promise<AxiosError> => {
+const onResponseError = async (
+  error: AxiosError<ErrorResponse>
+): Promise<AxiosError> => {
   if (error.response) {
     console.log(error);
     if (

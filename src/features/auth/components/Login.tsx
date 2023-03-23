@@ -1,6 +1,5 @@
 import Button from '@/common/components/button/Button';
 import api from '@/common/utils/axiosInstance';
-import getThemePreference from '@/common/utils/getThemePreference';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input } from 'antd';
 
@@ -31,9 +30,7 @@ const Login = () => {
       })
       .catch((err) => {
         err.response.data.non_field_errors.map((error: string) => {
-          toast.error(error, {
-            theme: getThemePreference(),
-          });
+          toast.error(error);
         });
       });
   };
@@ -41,9 +38,7 @@ const Login = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
     errorInfo.errorFields.map((error: any) => {
-      toast.error(error.errors[0], {
-        theme: getThemePreference(),
-      });
+      toast.error(error.errors[0]);
     });
   };
 

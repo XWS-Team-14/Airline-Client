@@ -1,5 +1,3 @@
-import { Layout } from 'antd';
-import { Content, Header } from 'antd/lib/layout/layout';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import NavigationBar from '../navigationBar/NavigationBar';
@@ -10,27 +8,14 @@ interface BaseTemplateProps {
 }
 
 const BaseTemplate = ({ children }: BaseTemplateProps) => (
-  <Layout className={classNames(styles.layout)}>
-    <Layout className={styles.contentLayout}>
-      <Header
-        className={styles.header}
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          width: '100vw',
-          backgroundColor: 'white',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '4rem',
-        }}
-      >
+  <div className={classNames(styles.layout)}>
+    <div className={styles.contentLayout}>
+      <div className={styles.header}>
         <NavigationBar />
-      </Header>
-      <Content>{children}</Content>
-    </Layout>
-  </Layout>
+      </div>
+      <div>{children}</div>
+    </div>
+  </div>
 );
 
 export default BaseTemplate;
