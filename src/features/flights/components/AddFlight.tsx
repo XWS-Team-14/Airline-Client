@@ -1,8 +1,7 @@
 import Button from '@/common/components/button/Button';
 import api from '@/common/utils/axiosInstance';
-import getThemePreference from '@/common/utils/getThemePreference';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Form, Input } from 'antd';
+import { Form, Input, Select } from 'antd';
 
 import Link from 'next/link';
 
@@ -13,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { addFlight } from '../services/flight.service';
 import styles from '../styles/AllFlights.module.scss';
 import FlightDto from '../types/FlightDto';
-
+import {ArrowRightOutlined } from "@ant-design/icons";
 const AddFlight = () => {
   const [form] = Form.useForm();
   const router = useRouter();
@@ -21,7 +20,7 @@ const AddFlight = () => {
   const [selectedRoute, setSelectedRoute] = useState<any>(null);
     useEffect (() =>  {
     api
-    .get('/api/route/all')
+    .get('api/route/all/places/')
     .then((res) =>{
         setRoutes(Array.from(res.data.results));
     })}, [])
@@ -56,14 +55,14 @@ const AddFlight = () => {
               
             ]}
           >
-            <select
+            
+            <Select
                 value = {selectedRoute}
-                onChange = {(e)=> setSelectedRoute(e.target.value)}
+                onChange = {(e)=> setSelectedRoute(e.target)}
             >
             {Routes.map((route) =>
-            <option value={route.id} key={route.id}>{route.id}{route.start_point.country} {route.start_point.airport_city} 
-            To: {route.end_point.country} {route.end_point.airport_city}</option>)}
-            </select>
+            <option value={route.id} key={route.id}>{route.start_point.country}: {route.start_point.airport_city} <ArrowRightOutlined/> {route.end_point.country}: {route.end_point.airport_city}</option>)}
+            </Select>
           </Form.Item>
           <Form.Item
             name="date_of_departure"
@@ -85,7 +84,7 @@ const AddFlight = () => {
             <Input
                 type = "number"
               className={styles.input}
-              prefix={<UserOutlined />}
+              placeholder="ticket price"
             />
           </Form.Item>
           <Form.Item
@@ -97,8 +96,8 @@ const AddFlight = () => {
           >
             <Input
               type = "number"
-              className={styles.inputField}
-              prefix={<UserOutlined />}
+              className={styles.input}
+              placeholder="number of seats"
             />
             </Form.Item>
           <Form.Item className={styles.submit}>
