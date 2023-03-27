@@ -29,3 +29,6 @@ export const verifyToken = async () => {
 export const isLoggedIn = () => {
   return typeof window !== 'undefined' && !!localStorage.getItem('loggedIn');
 };
+export const getUserCreds = async() =>{
+  return api.get('/api/auth/user/');
+}
