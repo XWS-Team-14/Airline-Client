@@ -1,7 +1,6 @@
 import { ConfigProvider } from 'antd';
 import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
-import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import '../common/styles/globals.scss';
 
