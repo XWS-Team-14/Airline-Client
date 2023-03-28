@@ -19,7 +19,7 @@ export async function fetchPlaces(): Promise<SelectOptions[]> {
 
 }
 
-export async function fetchData(searchParams: SearchParams): Promise<void> {
+export async function fetchData(searchParams: SearchParams | undefined): Promise<void> {
     return api
         .get('/api/search/?date='+printValues(searchParams?.date)+'&start_point='+printValues(searchParams?.start_point)+'&end_point='+printValues(searchParams?.end_point)+'&space_needed='+printValues(searchParams?.number_of_tickets))
         .then((res) =>

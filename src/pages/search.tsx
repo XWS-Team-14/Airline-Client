@@ -1,12 +1,11 @@
 import BaseTemplate from '@/common/components/baseTemplate/BaseTemplate';
-import SearchBar from '@/features/search/components/SearchBar';
-
+import Search from '@/features/search/components/Search';
 
 const SearchPage = () => {
   return (
     <>
       <BaseTemplate>
-        <SearchBar />
+        <Search/>
       </BaseTemplate>
     </>
   );
