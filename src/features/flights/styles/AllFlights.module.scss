@@ -1,47 +1,44 @@
 .wrapper {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: -100px;
-  }
-  .pageWrapper {
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100vw;
-    position: relative;
-    height: calc(100vh - 4rem);
-  }
-  .flightCard{
-    width: 58%;
-    height: 10%;
-    border: 3px solid lightblue; 
-    border-radius: 15px;
-    margin-bottom: 15px;
-    padding: 20px;
-    text-align: center;
-    background-color: aliceblue;
-  }
-  .flightCard:hover{
-    border: 3px solid mediumslateblue;
-  }
-  
-  .flightCard .flightCardContent{
-    text-align: center;
-    font-size: 16px;
-    
-  }
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: -100px;
+}
+.pageWrapper {
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  position: relative;
+  height: calc(100vh - 4rem);
+}
+.flightCard {
+  width: 58%;
+  height: 10%;
+  border: 3px solid lightblue;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  padding: 20px;
+  text-align: center;
+  background-color: aliceblue;
+}
+.flightCard:hover {
+  border: 3px solid mediumslateblue;
+}
 
-  .flightCardContent .cancelButton{
-    background-color: rgb(112, 107, 216);
-    color:aliceblue;
-    margin-left: 15px;
-  }
+.flightCard .flightCardContent {
+  text-align: center;
+  font-size: 16px;
+}
 
- 
-  
- 
+.flightCardContent .cancelButton {
+  background-color: rgb(112, 107, 216);
+  color: aliceblue;
+  margin-left: 15px;
+}
+
+
