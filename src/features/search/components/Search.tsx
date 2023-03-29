@@ -5,22 +5,18 @@ import SearchData from './SearchData';
 import styles from '../styles/search.module.scss';
 
 const Search = () => {
+  const [searchParams, setSearchParams] = useState<SearchParams>();
 
-  const [searchParams , setSearchParams] = useState<SearchParams>();
-
-  useEffect(() => {
-  }, []);
-
+  useEffect(() => {}, []);
 
   function handleDataChange(newData: SearchParams | undefined) {
     setSearchParams(newData);
   }
 
-  
   return (
     <div className={styles.searchContainer}>
-        <SearchBar onDataChanged={handleDataChange}/>
-        <SearchData searchParams={searchParams} />
+      <SearchBar onDataChanged={handleDataChange} />
+      <SearchData searchParams={searchParams} />
     </div>
   );
 };

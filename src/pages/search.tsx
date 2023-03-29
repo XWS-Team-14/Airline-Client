@@ -5,7 +5,7 @@ const SearchPage = () => {
   return (
     <>
       <BaseTemplate>
-        <Search/>
+        <Search />
       </BaseTemplate>
     </>
   );

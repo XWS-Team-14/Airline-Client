@@ -1,7 +1,7 @@
-import { SearchFlightsDto } from "./SearchFlightsDto"
+import { SearchFlightsDto } from './SearchFlightsDto';
 
 export interface SearchResultDto {
-    next: string
-    previous: string
-    results: SearchFlightsDto[]
+  next: string;
+  previous: string;
+  results: SearchFlightsDto[];
 }

@@ -1,17 +1,17 @@
 .searchBarContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
 
 .searchContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    flex-direction: column;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  flex-direction: column;
+}
 
 .layoutStyle {
   display: flex;
@@ -52,7 +52,7 @@
   padding-top: 10px;
 }
 
-.centerSvg{
+.centerSvg {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,7 +63,7 @@
   position: absolute;
 }
 
-.centerContainer{
+.centerContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,7 +75,7 @@
   font-size: large;
 }
 
-.centerWrapper{
+.centerWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,13 +91,13 @@
 .cleanParagraph {
   padding: 0px;
   margin: 0px;
-  font-size:medium;
+  font-size: medium;
   font-weight: 500;
   text-align: center;
 }
 
 .centerParagraph {
-  font-size:medium;
+  font-size: medium;
   font-weight: 500;
   text-align: center;
   padding: 0px;
