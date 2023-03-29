@@ -3,7 +3,7 @@ import PlaceDto from '../types/PlaceDto';
 import { SearchFlightsDto } from '../types/SearchFlightsDto';
 import { SearchParams } from '../types/SearchParams';
 import { SelectOptions } from '../types/SelectOptions';
-
+import { SearchResultDto } from '../types/SearchResultDto';
 
 export async function fetchPlaces(): Promise<SelectOptions[]> {
     return api
@@ -20,11 +20,22 @@ export async function fetchPlaces(): Promise<SelectOptions[]> {
 
 }
 
-export async function fetchData(searchParams: SearchParams | undefined): Promise<SearchFlightsDto[]> {
+export async function fetchData(searchParams: SearchParams | undefined): Promise<SearchResultDto> {
     return api
         .get('/api/search/?date='+printValues(searchParams?.date)+'&start_point='+printValues(searchParams?.start_point)+'&end_point='+printValues(searchParams?.end_point)+'&space_needed='+printValues(searchParams?.number_of_tickets))
         .then((res) => {
-            return (res.data.results)
+            return (res.data)
+        }
+        )
+        .catch((err) => console.log(err));
+
+}
+
+export async function fetchDataPage(url: string): Promise<SearchResultDto> {
+    return api
+        .get(url)
+        .then((res) => {
+            return (res.data)
         }
         )
         .catch((err) => console.log(err));

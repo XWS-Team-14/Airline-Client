@@ -1,7 +1,7 @@
 import Button from '@/common/components/button/Button';
 import { Layout, List, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import { fetchData } from '../service/search.service';
+import { fetchData, fetchDataPage } from '../service/search.service';
 import { SearchFlightsDto } from '../types/SearchFlightsDto';
 import { SearchParams } from '../types/SearchParams';
 import styles from '../styles/search.module.scss';
@@ -18,7 +18,11 @@ const SearchData = ({searchParams} : SearchDataProps) => {
     const { Header, Content, Footer, Sider } = Layout;
 
   useEffect(() => {
-    fetchData(searchParams).then(data => setFlights(data));
+    fetchData(searchParams).then(data => {
+        setFlights(data.results);
+        setNext(data.next);
+        setPrevious(data.previous);
+    });
   }, [searchParams]);
 
   function buyTickets(id : string, ticketNumber : number) {
@@ -26,8 +30,20 @@ const SearchData = ({searchParams} : SearchDataProps) => {
     console.log(ticketNumber)
   }
 
+  function changePage(url: string) {
+    if(url == null)
+      return
+    fetchDataPage(url).then(data => 
+      {
+        setFlights(data.results);
+        setNext(data.next);
+        setPrevious(data.previous);
+      })
+  }
+
   return (
     <div className={styles.searchBarContainer}>
+        <Space className={styles.centerContainer}>
         <List 
             dataSource={flights}
             renderItem={(item) => (
@@ -76,8 +92,12 @@ const SearchData = ({searchParams} : SearchDataProps) => {
                   </Layout>
               </List.Item>
             )}
-        />  
-        
+        />
+        <Space className={styles.centerWrapper}>
+          <Button type='secondary' action={() => changePage(previous)} text='< Previous' style={{width: 120}} />
+          <Button type='secondary' action={() => changePage(next)} text='Next >' style={{width: 120}} />
+        </Space>  
+        </Space>
     </div>
   );
 };
