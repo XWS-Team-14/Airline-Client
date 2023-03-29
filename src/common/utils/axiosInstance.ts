@@ -41,9 +41,7 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
   return response;
 };
 
-const onResponseError = async (
-  error: AxiosError<ErrorResponse>
-): Promise<AxiosError> => {
+const onResponseError = async (error: AxiosError<ErrorResponse>): Promise<any> => {
   if (error.response) {
     console.log(error);
     if (
@@ -57,6 +55,7 @@ const onResponseError = async (
             (api.defaults.headers.common.Authorization =
               'Bearer ' + res.data.access)
         );
+        return Promise.resolve();
       } catch (_error) {
         return Promise.reject(_error);
       }

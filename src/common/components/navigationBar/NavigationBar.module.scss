@@ -48,5 +48,12 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+.user {
+  font-weight: 600;
+  font-size: 16px;
+  margin-right: 0.5rem;
+}
+
+.dropdown {
+  display: flex;
 }

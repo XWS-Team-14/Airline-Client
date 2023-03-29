@@ -1,6 +1,19 @@
+import {
+  selectAuthState,
+  selectUser,
+  setAuthState,
+  setUserEmail,
+  setUserFirstName,
+  setUserLastName,
+} from '@/common/store/slices/authSlice';
+import api from '@/common/utils/axiosInstance';
 import { logout } from '@/features/auth/services/auth.service';
+import { DownOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Dropdown, MenuProps } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Logo from '../../../assets/images/logo.png';
 import Button from '../button/Button';
@@ -8,6 +21,30 @@ import NavigationLink from '../navigationLink/NavigationLink';
 import styles from './NavigationBar.module.scss';
 
 const NavigationBar = () => {
+  const authState = useSelector(selectAuthState);
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout().then(() => {
+      router.replace('/');
+      api.defaults.headers.common.Authorization = '';
+      dispatch(setAuthState(false));
+      dispatch(setUserEmail(null));
+      dispatch(setUserFirstName(null));
+      dispatch(setUserLastName(null));
+    });
+  };
+
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: 'Log out',
+      onClick: () => handleLogout(),
+      icon: <LogoutOutlined />,
+    },
+  ];
   return (
     <div className={styles.wrapper}>
       <div className={styles.logo}>
@@ -26,17 +63,27 @@ const NavigationBar = () => {
         <NavigationLink href="/" text="Home" />
       </div>
       <div className={styles.buttons}>
-        <>
-          <Button type="secondary" text="Log out" action={() => logout()} />
-        </>
-        <>
-          <Link href="/signup">
-            <Button type="primary" text="Sign up" />
-          </Link>
-          <Link href="/login">
-            <Button type="secondary" text="Log in" />
-          </Link>
-        </>
+        {authState ? (
+          <Dropdown menu={{ items }} placement="bottom">
+            <a onClick={(e) => e.preventDefault()}>
+              <div className={styles.dropdown}>
+                <div className={styles.user}>
+                  {user.firstName} {user.lastName}
+                </div>
+                <DownOutlined style={{ fontSize: '12px' }} />
+              </div>
+            </a>
+          </Dropdown>
+        ) : (
+          <>
+            <Link href="/signup">
+              <Button type="primary" text="Sign up" />
+            </Link>
+            <Link href="/login">
+              <Button type="secondary" text="Log in" />
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

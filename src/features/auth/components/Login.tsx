@@ -1,4 +1,10 @@
 import Button from '@/common/components/button/Button';
+import {
+  setAuthState,
+  setUserEmail,
+  setUserFirstName,
+  setUserLastName,
+} from '@/common/store/slices/authSlice';
 import api from '@/common/utils/axiosInstance';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input } from 'antd';
@@ -7,9 +13,10 @@ import Link from 'next/link';
 
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux/es/exports';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { login } from '../services/auth.service';
+import { getCurrentUserData, login } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
 import LoginDto from '../types/LoginDto';
 
@@ -17,16 +24,23 @@ const Login = () => {
   const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
   const onFinish = (values: LoginDto) => {
     login({
       email: values.email,
       password: values.password,
     })
-      .then((res) => {
-        localStorage.setItem('loggedIn', 'true');
+      .then(async (res) => {
         api.defaults.headers.common.Authorization =
           'Bearer ' + res.data.access_token;
-        router.replace('/');
+        dispatch(setAuthState(true));
+        const user = await getCurrentUserData();
+        if (user) {
+          dispatch(setUserFirstName(user.firstName));
+          dispatch(setUserLastName(user.lastName));
+          dispatch(setUserEmail(user.email));
+          router.replace('/');
+        }
       })
       .catch((err) => {
         err.response.data.non_field_errors.map((error: string) => {
