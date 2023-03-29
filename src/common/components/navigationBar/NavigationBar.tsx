@@ -28,7 +28,6 @@ const NavigationBar = () => {
       <div className={styles.links}>
         <NavigationLink href="/" text="Home" />
         <NavigationLink href="/example" text="Example" />
-        <NavigationLink href="/search" text="Search Flights" />
       </div>
       <div className={styles.buttons}>
         {isLoggedIn() ? (

@@ -46,5 +46,5 @@ export async function fetchDataPage(url: string): Promise<SearchResultDto> {
 }
 
 function printValues(val: any) {
-  return val == undefined ? '' : val;
+  return val === undefined ? '' : val;
 }

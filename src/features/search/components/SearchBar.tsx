@@ -24,7 +24,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
   }
 
   function changeStartPoint(value: string) {
-    var temp: SearchParams = {
+    let temp: SearchParams = {
       start_point: value,
       end_point: searchParams?.end_point,
       date: searchParams?.date,
@@ -33,7 +33,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     setSearchParams(temp);
   }
   function changeEndPoint(value: string) {
-    var temp: SearchParams = {
+    let temp: SearchParams = {
       start_point: searchParams?.start_point,
       end_point: value,
       date: searchParams?.date,
@@ -42,7 +42,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     setSearchParams(temp);
   }
   const changeDate: DatePickerProps['onChange'] = (date, value) => {
-    var temp: SearchParams = {
+    let temp: SearchParams = {
       start_point: searchParams?.start_point,
       end_point: searchParams?.end_point,
       date: value,
@@ -51,10 +51,10 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     setSearchParams(temp);
   };
   function changeNumberOfTickets(value: number | null) {
-    if (value == null) {
+    if (value === null) {
       return;
     }
-    var temp: SearchParams = {
+    let temp: SearchParams = {
       start_point: searchParams?.start_point,
       end_point: searchParams?.end_point,
       date: searchParams?.date,

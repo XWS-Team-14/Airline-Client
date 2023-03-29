@@ -14,7 +14,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
   const [flights, setFlights] = useState<SearchFlightsDto[]>([]);
   const [next, setNext] = useState('');
   const [previous, setPrevious] = useState('');
-  const { Header, Content, Footer, Sider } = Layout;
+  const { Content, Sider } = Layout;
 
   useEffect(() => {
     fetchData(searchParams).then((data) => {
@@ -30,7 +30,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
   }
 
   function changePage(url: string) {
-    if (url == null) return;
+    if (url === null) return;
     fetchDataPage(url).then((data) => {
       setFlights(data.results);
       setNext(data.next);
@@ -51,8 +51,8 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
                     <Space className={styles.countryDisplay}>
                       <p className={styles.centerParagraph}>
                         {item.route.start_point.airport_city} <br />
-                        {item.route.start_point.country} - '
-                        {item.route.start_point.airport_name}'
+                        {item.route.start_point.country} - &apos;
+                        {item.route.start_point.airport_name}&apos;
                       </p>
                     </Space>
                     <Space className={styles.centerContainer}>
@@ -82,8 +82,8 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
                     <Space className={styles.countryDisplay}>
                       <p className={styles.centerParagraph}>
                         {item.route.end_point.airport_city} <br />
-                        {item.route.end_point.country} - '
-                        {item.route.end_point.airport_name}'
+                        {item.route.end_point.country} - &apos; 
+                        {item.route.end_point.airport_name}&apos;
                       </p>
                     </Space>
                   </Space>
