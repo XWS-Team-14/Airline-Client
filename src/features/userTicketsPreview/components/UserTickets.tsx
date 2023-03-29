@@ -12,11 +12,6 @@ const FetchUserTickets = () =>{
     useEffect(() => {
       const fetchData = async () => {
         try{
-          refresh().then(
-            (res) =>
-              (api.defaults.headers.common.Authorization =
-                'Bearer ' + res.data.access)
-          );
           const response = await getUserCreds();
           setUserEmail(response.data.email);
         }
@@ -43,10 +38,6 @@ const FetchUserTickets = () =>{
   return (
     <section>
       <div className={styles.wrapper}>
-        <div className={styles.pDataHolder}>
-          <h1>{data?.first_name +" "+data?.last_name}</h1>
-          <p>{data?.email}</p>
-        </div>
         <div className={styles.cardHolder}>
           {data?.tickets.map(item => (
             <Card
@@ -54,10 +45,10 @@ const FetchUserTickets = () =>{
               bordered={true}
               className={styles.card}
               >
-              <p>Date:{item.flight.date_of_departure.toString()}</p>
-              <p>Price:{item.flight.ticket_price.toString()}</p>
-              <p>From:{item.flight.route.start_point.country+" - "+item.flight.route.start_point.airport_city+" - "+item.flight.route.start_point.airport_name}</p>
-              <p>To:{item.flight.route.end_point.country+" - "+item.flight.route.end_point.airport_city+" - "+item.flight.route.end_point.airport_name}</p>
+              <p><strong>Date:</strong>{item.flight.date_of_departure.toString()}</p>
+              <p><strong>Price:</strong>{item.flight.ticket_price.toString()}</p>
+                <p><strong>From:</strong>{item.flight.route.start_point.country+" - "+item.flight.route.start_point.airport_city+" - "+item.flight.route.start_point.airport_name}</p>
+                <p><strong>To:</strong>{item.flight.route.end_point.country+" - "+item.flight.route.end_point.airport_city+" - "+item.flight.route.end_point.airport_name}</p>
             </Card>
           ))}
         </div>
