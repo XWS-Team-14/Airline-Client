@@ -33,6 +33,12 @@ export const authSlice = createSlice({
     setUserEmail(state, action) {
       state.userEmail = action.payload;
     },
+    reset(state, action?) {
+      state.authState = false;
+      state.userFirstName = null;
+      state.userLastName = null;
+      state.userEmail = null;
+    },
   },
 
   extraReducers: {
@@ -45,8 +51,13 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setAuthState, setUserFirstName, setUserLastName, setUserEmail } =
-  authSlice.actions;
+export const {
+  setAuthState,
+  setUserFirstName,
+  setUserLastName,
+  setUserEmail,
+  reset,
+} = authSlice.actions;
 
 export const selectAuthState = (state: AppState) => state.auth.authState;
 

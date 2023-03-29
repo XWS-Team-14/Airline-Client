@@ -13,7 +13,7 @@ import Link from 'next/link';
 
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux/es/exports';
+import { useDispatch } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getCurrentUserData, login } from '../services/auth.service';
@@ -36,6 +36,7 @@ const Login = () => {
         dispatch(setAuthState(true));
         const user = await getCurrentUserData();
         if (user) {
+          dispatch(setAuthState(true));
           dispatch(setUserFirstName(user.firstName));
           dispatch(setUserLastName(user.lastName));
           dispatch(setUserEmail(user.email));

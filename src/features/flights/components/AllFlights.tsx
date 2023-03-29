@@ -14,6 +14,16 @@ import FlightDto from '../types/FlightDto';
 
 const AllFlights = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [flights, setFlights] = useState<FlightDto[]>([]);
+
+  useEffect(() => {
+    api
+      .get('/api/flight/all')
+      .then((res) => {
+        setFlights(Array.from(res.data.results));
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -21,9 +31,14 @@ const AllFlights = () => {
 
   const handleOk = (dto: FlightDto) => {
     deleteFlight(dto).then(() => {
-      api.get('/api/flight/all').then((res) => {
-        setFlights(Array.from(res.data.results));
-      });
+      api
+        .get('/api/flight/all')
+        .then((res) => {
+          setFlights(Array.from(res.data.results));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       setIsModalOpen(false);
     });
   };
@@ -31,12 +46,6 @@ const AllFlights = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const [flights, setFlights] = useState<FlightDto[]>([]);
-  useEffect(() => {
-    api.get('/api/flight/all').then((res) => {
-      setFlights(Array.from(res.data.results));
-    });
-  }, []);
 
   return (
     <section className={styles.pageWrapper}>

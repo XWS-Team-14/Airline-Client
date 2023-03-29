@@ -1,13 +1,16 @@
 import { refresh } from '@/features/auth/services/auth.service';
 import axios from 'axios';
 import Router from 'next/router';
+import {
+  setAuthState,
+  setUserEmail,
+  setUserFirstName,
+  setUserLastName,
+} from '../store/slices/authSlice';
+import { store } from '../store/store';
 
-interface ErrorResponse {
-  detail: string;
-  code: string;
-}
 const api = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
@@ -23,6 +26,7 @@ const api = axios.create({
     },
   ],
 });
+
 let isRefreshing = false;
 
 api.interceptors.response.use(
@@ -39,17 +43,26 @@ api.interceptors.response.use(
     if (status === 401 && Router.pathname !== '/login') {
       if (!isRefreshing) {
         isRefreshing = true;
-        refresh().then((res) => {
-          isRefreshing = false;
-          api.defaults.headers.common.Authorization =
-            'Bearer ' + res.data.access;
-        });
+        refresh()
+          .then((res) => {
+            isRefreshing = false;
+            api.defaults.headers.common.Authorization =
+              'Bearer ' + res.data.access;
+            const retryOrigReq = new Promise((resolve, reject) => {
+              resolve(axios(originalRequest));
+            });
+          })
+          .catch((err) => {
+            store.dispatch(setAuthState(false));
+            store.dispatch(setUserEmail(null));
+            store.dispatch(setUserFirstName(null));
+            store.dispatch(setUserLastName(null));
+          });
       }
-
-      const retryOrigReq = new Promise((resolve, reject) => {
-        resolve(axios(originalRequest));
-      });
-      return retryOrigReq;
+      return Promise.resolve();
+    } else if (status === 403) {
+      Router.replace('/');
+      return Promise.reject(error);
     } else {
       return Promise.reject(error);
     }

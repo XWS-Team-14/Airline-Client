@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
 const makeConfiguredStore = () =>
   configureStore({
     reducer: rootReducer,
-    devTools: true,
+    devTools: process.env.NODE_ENV !== 'production',
   });
 
 export const makeStore = () => {
@@ -50,3 +50,5 @@ export const makeStore = () => {
 };
 
 export const wrapper = createWrapper<AppStore>(makeStore);
+
+export const store = makeStore();

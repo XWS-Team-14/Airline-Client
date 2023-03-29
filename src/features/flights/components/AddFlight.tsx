@@ -1,24 +1,27 @@
+/* eslint-disable camelcase */
 import Button from '@/common/components/button/Button';
 import api from '@/common/utils/axiosInstance';
-import { Form, Input, Select } from 'antd';
-
 import { ArrowRightOutlined } from '@ant-design/icons';
+import { Form, Input, Select } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addFlight } from '../services/flight.service';
 import styles from '../styles/flights.module.scss';
+
 const AddFlight = () => {
   const [form] = Form.useForm();
   const router = useRouter();
   const [routes, setRoutes] = useState<any[]>([]);
   const [selectedRoute, setSelectedRoute] = useState<any>(null);
+
   useEffect(() => {
     api.get('api/route/all/places/').then((res) => {
       setRoutes(Array.from(res.data.results));
     });
   }, []);
+
   const onFinish = (values: any) => {
     values.date_of_departure;
     addFlight({
@@ -29,9 +32,11 @@ const AddFlight = () => {
       number_of_seats: values.number_of_seats,
       number_of_free_spaces: values.number_of_seats,
       id: '',
-    }).then((res) => {
-      router.replace('/allFlights');
-    });
+    })
+      .then((res) => {
+        router.replace('/allFlights');
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
