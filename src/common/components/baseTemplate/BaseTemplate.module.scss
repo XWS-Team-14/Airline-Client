@@ -2,6 +2,9 @@
 
 .layout {
   min-height: 100vh;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .header {
@@ -9,9 +12,9 @@
   position: fixed;
   top: 0;
   z-index: 1;
-  width: 100vw;
+  width: 100%;
+  max-width: 1440px;
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 4rem;
   align-self: flex-start;

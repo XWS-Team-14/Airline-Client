@@ -9,13 +9,13 @@ import '../common/styles/globals.scss';
 const inter = Inter({ subsets: ['latin'] });
 function App({ Component, ...rest }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(rest);
-
+  console.log(inter);
   return (
     <Provider store={store}>
       <ConfigProvider
         theme={{
           token: {
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: `${inter.style.fontFamily}`,
           },
         }}
       >

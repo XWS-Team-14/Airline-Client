@@ -6,6 +6,7 @@ import {
   EuroCircleOutlined,
 } from '@ant-design/icons';
 import { Button, Divider, Modal } from 'antd';
+import classNames from 'classnames';
 import Moment from 'moment';
 import { useEffect, useState } from 'react';
 import { deleteFlight } from '../services/flight.service';
@@ -50,7 +51,9 @@ const AllFlights = () => {
   return (
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
-        <h1 className={styles.title}>Flights</h1>
+        <h1 className={classNames(styles.title, styles.flightsTitle)}>
+          Flights
+        </h1>
         {flights.map((flight) => (
           <div className={styles.flightCard} key={flight.id}>
             <div className={styles.flightCardContent}>

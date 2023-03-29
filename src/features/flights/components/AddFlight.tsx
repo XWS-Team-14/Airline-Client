@@ -3,6 +3,7 @@ import Button from '@/common/components/button/Button';
 import api from '@/common/utils/axiosInstance';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { Form, Input, Select } from 'antd';
+import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
@@ -43,8 +44,12 @@ const AddFlight = () => {
     <section className={styles.pageWrapper}>
       <ToastContainer />
       <div className={styles.wrapper}>
-        <h1 className={styles.title}>Add a new flight</h1>
-        <Form form={form} className={styles.flightForm} onFinish={onFinish}>
+        <Form
+          form={form}
+          className={classNames(styles.flightForm, 'frostedGlass')}
+          onFinish={onFinish}
+        >
+          <h1 className={styles.title}>New flight</h1>
           <Form.Item
             name="Route"
             rules={[{ required: true, message: selectedRoute }]}
@@ -113,7 +118,11 @@ const AddFlight = () => {
             />
           </Form.Item>
           <Form.Item className={styles.submit}>
-            <Button type="primary" text="Add" style={{ width: '100%' }} />
+            <Button
+              type="primary"
+              text="Add"
+              style={{ width: '100%', fontSize: '14px' }}
+            />
           </Form.Item>
         </Form>
       </div>

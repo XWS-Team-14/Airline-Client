@@ -46,10 +46,17 @@ api.interceptors.response.use(
         refresh()
           .then((res) => {
             isRefreshing = false;
-            api.defaults.headers.common.Authorization =
-              'Bearer ' + res.data.access;
-            const retryOrigReq = new Promise((resolve, reject) => {
-              resolve(axios(originalRequest));
+            const setHeaders = async () => {
+              api.defaults.headers.common.Authorization =
+                'Bearer ' + res.data.access;
+              originalRequest.headers.Authorization =
+                'Bearer ' + res.data.access;
+            };
+            return setHeaders().then(async () => {
+              const retry = await new Promise((resolve, reject) => {
+                resolve(api(originalRequest));
+              });
+              return retry;
             });
           })
           .catch((err) => {
