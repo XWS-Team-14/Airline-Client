@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { fetchData} from '../service/search.service';
-import { SelectOptions } from '../types/SelectOptions';
 import { SearchParams } from '../types/SearchParams';
 import SearchBar from './SearchBar';
 import SearchData from './SearchData';
+import styles from '../styles/search.module.scss';
 
 const Search = () => {
 
@@ -19,7 +18,7 @@ const Search = () => {
 
   
   return (
-    <div >
+    <div className={styles.searchContainer}>
         <SearchBar onDataChanged={handleDataChange}/>
         <SearchData searchParams={searchParams} />
     </div>
