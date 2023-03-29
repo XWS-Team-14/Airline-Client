@@ -1,5 +1,7 @@
 import { refresh } from '@/features/auth/services/auth.service';
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import axios from 'axios';
+import Router from 'next/router';
+
 interface ErrorResponse {
   detail: string;
   code: string;
@@ -21,52 +23,37 @@ const api = axios.create({
     },
   ],
 });
-const errorHandler = (error: any) => {
-  const statusCode = error.response?.status;
+let isRefreshing = false;
 
-  if (statusCode && statusCode !== 401) {
-    console.error(error);
-  }
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const {
+      config,
+      response: { status },
+    } = error;
+    const originalRequest = config;
 
-  return Promise.reject(error);
-};
-
-api.interceptors.response.use(undefined, (error) => {
-  return errorHandler(error);
-});
-
-export default api;
-
-const onResponse = (response: AxiosResponse): AxiosResponse => {
-  return response;
-};
-
-const onResponseError = async (error: AxiosError<ErrorResponse>): Promise<any> => {
-  if (error.response) {
-    console.log(error);
-    if (
-      error.response.status === 401 &&
-      error.response.data.code &&
-      error.response.data.code === 'token_not_valid'
-    ) {
-      try {
-        refresh().then(
-          (res) =>
-            (api.defaults.headers.common.Authorization =
-              'Bearer ' + res.data.access)
-        );
-        return Promise.resolve();
-      } catch (_error) {
-        return Promise.reject(_error);
+    if (status === 401 && Router.pathname !== '/login') {
+      if (!isRefreshing) {
+        isRefreshing = true;
+        refresh().then((res) => {
+          isRefreshing = false;
+          api.defaults.headers.common.Authorization =
+            'Bearer ' + res.data.access;
+        });
       }
+
+      const retryOrigReq = new Promise((resolve, reject) => {
+        resolve(axios(originalRequest));
+      });
+      return retryOrigReq;
+    } else {
+      return Promise.reject(error);
     }
   }
-  return Promise.reject(error);
-};
+);
 
-const setupInterceptorsTo = (axiosInstance: AxiosInstance): AxiosInstance => {
-  axiosInstance.interceptors.response.use(onResponse, onResponseError);
-  return axiosInstance;
-};
-
-setupInterceptorsTo(api);
+export default api;
