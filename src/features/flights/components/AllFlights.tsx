@@ -1,20 +1,30 @@
-import * as React from 'react';
-import { Component, useEffect, useState } from 'react';
-import FlightDto from '../types/FlightDto';
-import styles from '../styles/AllFlights.module.scss';
 import api from '@/common/utils/axiosInstance';
-import Icon, {
-  EuroCircleOutlined,
+import {
+  ArrowRightOutlined,
   ClockCircleOutlined,
   CompassOutlined,
-  ArrowRightOutlined,
+  EuroCircleOutlined,
 } from '@ant-design/icons';
-import { Divider, Button, Modal } from 'antd';
+import { Button, Divider, Modal } from 'antd';
+import classNames from 'classnames';
 import Moment from 'moment';
+import { useEffect, useState } from 'react';
 import { deleteFlight } from '../services/flight.service';
+import styles from '../styles/flights.module.scss';
+import FlightDto from '../types/FlightDto';
 
 const AllFlights = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [flights, setFlights] = useState<FlightDto[]>([]);
+
+  useEffect(() => {
+    api
+      .get('/api/flight/all')
+      .then((res) => {
+        setFlights(Array.from(res.data.results));
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -22,9 +32,14 @@ const AllFlights = () => {
 
   const handleOk = (dto: FlightDto) => {
     deleteFlight(dto).then(() => {
-      api.get('/api/flight/all').then((res) => {
-        setFlights(Array.from(res.data.results));
-      });
+      api
+        .get('/api/flight/all')
+        .then((res) => {
+          setFlights(Array.from(res.data.results));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       setIsModalOpen(false);
     });
   };
@@ -32,17 +47,13 @@ const AllFlights = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const [flights, setFlights] = useState<FlightDto[]>([]);
-  useEffect(() => {
-    api.get('/api/flight/all').then((res) => {
-      setFlights(Array.from(res.data.results));
-    });
-  }, []);
 
   return (
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
-        <h1 className={styles.title}>Flights</h1>
+        <h1 className={classNames(styles.title, styles.flightsTitle)}>
+          Flights
+        </h1>
         {flights.map((flight) => (
           <div className={styles.flightCard} key={flight.id}>
             <div className={styles.flightCardContent}>
@@ -65,7 +76,7 @@ const AllFlights = () => {
                 Cancel
               </Button>
               <Modal
-                title="Cancel The Flight"
+                title="Cancel flight"
                 okText="Yes"
                 cancelText="No"
                 okButtonProps={{ danger: true }}
@@ -73,7 +84,7 @@ const AllFlights = () => {
                 onOk={() => handleOk(flight)}
                 onCancel={handleCancel}
               >
-                <p>Are you sure you want to cancel the flight?</p>
+                <p>Are you sure you want to cancel this flight?</p>
               </Modal>
             </div>
           </div>

@@ -1,28 +1,28 @@
+/* eslint-disable camelcase */
 import Button from '@/common/components/button/Button';
 import api from '@/common/utils/axiosInstance';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined } from '@ant-design/icons';
 import { Form, Input, Select } from 'antd';
-
-import Link from 'next/link';
-
+import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addFlight } from '../services/flight.service';
-import styles from '../styles/AllFlights.module.scss';
-import FlightDto from '../types/FlightDto';
-import { ArrowRightOutlined } from '@ant-design/icons';
+import styles from '../styles/flights.module.scss';
+
 const AddFlight = () => {
   const [form] = Form.useForm();
   const router = useRouter();
   const [routes, setRoutes] = useState<any[]>([]);
   const [selectedRoute, setSelectedRoute] = useState<any>(null);
+
   useEffect(() => {
     api.get('api/route/all/places/').then((res) => {
       setRoutes(Array.from(res.data.results));
     });
   }, []);
+
   const onFinish = (values: any) => {
     values.date_of_departure;
     addFlight({
@@ -33,26 +33,32 @@ const AddFlight = () => {
       number_of_seats: values.number_of_seats,
       number_of_free_spaces: values.number_of_seats,
       id: '',
-    }).then((res) => {
-      router.replace('/allFlights');
-    });
+    })
+      .then((res) => {
+        router.replace('/allFlights');
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <section className={styles.pageWrapper}>
       <ToastContainer />
       <div className={styles.wrapper}>
-        <h1 className={styles.title}>Add Flight</h1>
-        <Form form={form} className={styles.flightForm} onFinish={onFinish}>
+        <Form
+          form={form}
+          className={classNames(styles.flightForm, 'frostedGlass')}
+          onFinish={onFinish}
+        >
+          <h1 className={styles.title}>New flight</h1>
           <Form.Item
             name="Route"
             rules={[{ required: true, message: selectedRoute }]}
           >
             <Select
+              className={styles.input}
               value={selectedRoute}
               onChange={(value) => {
                 setSelectedRoute(value);
-                alert(value);
               }}
             >
               {routes.map((route) => (
@@ -73,7 +79,7 @@ const AddFlight = () => {
             <Input
               className={styles.input}
               type="date"
-              placeholder="dd/MM/yyyy"
+              placeholder="Date of departure"
             />
           </Form.Item>
           <Form.Item
@@ -82,35 +88,40 @@ const AddFlight = () => {
               { required: true, message: 'Time of departure is required.' },
             ]}
           >
-            <Input className={styles.input} type="time" />
+            <Input
+              className={styles.input}
+              type="time"
+              placeholder="Time of departure"
+            />
           </Form.Item>
           <Form.Item
             name="ticket_price"
-            rules={[{ required: true, message: 'ticket price is required.' }]}
+            rules={[{ required: true, message: 'Ticket price is required.' }]}
           >
             <Input
               type="number"
               className={styles.input}
-              placeholder="ticket price"
+              placeholder="Price"
+              prefix="€"
             />
           </Form.Item>
           <Form.Item
             name="number_of_seats"
             rules={[
-              { required: true, message: 'number of seats is required.' },
+              { required: true, message: 'Number of seats is required.' },
             ]}
           >
             <Input
               type="number"
               className={styles.input}
-              placeholder="number of seats"
+              placeholder="Capacity"
             />
           </Form.Item>
           <Form.Item className={styles.submit}>
             <Button
               type="primary"
-              text="Add Flight"
-              style={{ width: '100%' }}
+              text="Add"
+              style={{ width: '100%', fontSize: '14px' }}
             />
           </Form.Item>
         </Form>

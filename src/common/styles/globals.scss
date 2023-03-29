@@ -11,9 +11,10 @@ body {
 }
 body {
   background-image: url('../../assets/images/bg.png');
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
+  background-color: #f3f7f7;
 }
 
 a {
@@ -48,4 +49,11 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(196, 205, 219, 1);
+}
+
+.frostedGlass {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
