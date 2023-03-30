@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
-import { DatePickerProps, InputNumber, Select } from 'antd';
-import { DatePicker } from 'antd';
-import styles from '../styles/search.module.scss';
 import Button from '@/common/components/button/Button';
+import { DatePicker, DatePickerProps, InputNumber, Select } from 'antd';
+import { useEffect, useState } from 'react';
 import { fetchPlaces } from '../service/search.service';
-import { SelectOptions } from '../types/SelectOptions';
+import styles from '../styles/search.module.scss';
 import { SearchParams } from '../types/SearchParams';
+import { SelectOptions } from '../types/SelectOptions';
 
 interface SearchBarProps {
   onDataChanged: (newData: SearchParams | undefined) => void;
@@ -19,7 +18,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     fetchPlaces().then((data) => setPlaceOptions(data));
   }, []);
 
-  function sendDataToParrent() {
+  function sendDataToParent() {
     onDataChanged(searchParams);
   }
 
@@ -51,16 +50,12 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     setSearchParams(temp);
   };
   function changeNumberOfTickets(value: number | null) {
-    if (value === null) {
-      return;
-    }
-    let temp: SearchParams = {
+    setSearchParams({
       start_point: searchParams?.start_point,
       end_point: searchParams?.end_point,
       date: searchParams?.date,
-      number_of_tickets: value,
-    };
-    setSearchParams(temp);
+      number_of_tickets: value ? value : 1,
+    });
   }
 
   return (
@@ -100,7 +95,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
         style={{ width: 160, marginRight: 5 }}
       />
       <Button
-        action={sendDataToParrent}
+        action={sendDataToParent}
         type="primary"
         text="SEARCH"
         style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}

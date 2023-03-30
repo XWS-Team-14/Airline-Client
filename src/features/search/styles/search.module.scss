@@ -15,44 +15,54 @@
 
 .layoutStyle {
   display: flex;
-  height: 110px;
   width: 1200px;
-  background: none;
-  border: 1px #7394f9 solid;
   border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 1rem;
 }
 .contentStyle {
   border-bottom-left-radius: 1rem;
   border-top-left-radius: 1rem;
-  background-color: rgb(253, 253, 253);
+  background-color: transparent !important;
 }
 .ticketPrice {
-  border-left: 1px #7394f9 solid;
-  border-right: 1px #7394f9 solid;
+  border-left: 1px #e6e9f3 solid;
   padding: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: transparent !important;
 }
-.ticketPriceCollective {
+
+.borderRadius {
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 }
+
 .priceSpace {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-top: 10px;
-  overflow: scroll;
-  max-width: 160px;
-  max-height: 100px;
+  min-width: 150px;
+  button {
+    margin-top: 0.5rem;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.price {
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .centerSvg {
@@ -66,6 +76,16 @@
   position: absolute;
 }
 
+.airplane {
+  position: absolute;
+  width: 30px;
+  margin-top: 3px;
+}
+
+.arrow {
+  width: 400px;
+}
+
 .centerContainer {
   display: flex;
   justify-content: center;
@@ -75,24 +95,26 @@
 
 .dateDisplay {
   font-weight: 500;
-  font-size: large;
+  font-size: 12px;
+  position: absolute;
+  bottom: 20px;
 }
 
 .centerWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+}
+
+.column {
+  flex-direction: column;
 }
 
 .countryDisplay {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 35px;
-  overflow: scroll;
-  max-width: 175px;
-  min-width: 175px;
-  max-height: 90px;
 }
 
 .cleanParagraph {
@@ -101,13 +123,10 @@
   font-size: medium;
   font-weight: 500;
   text-align: center;
-  max-height: 45px;
-  min-height: 45px;
-  overflow: scroll;
 }
 
 .centerParagraph {
-  font-size: medium;
+  font-size: 14px;
   font-weight: 500;
   text-align: center;
   padding: 0px;
