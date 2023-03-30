@@ -38,3 +38,6 @@ export const getCurrentUserData = async () => {
     return null;
   }
 };
+export const getUserCreds = async() =>{
+  return api.get('/api/auth/user/');
+}

@@ -61,6 +61,8 @@ const NavigationBar = () => {
       </div>
       <div className={styles.links}>
         <NavigationLink href="/" text="Home" />
+        <NavigationLink href="/example" text="Example" />
+        <NavigationLink href="/userTickets" text="Tickets" />
         <NavigationLink href="/flights" text="Flights" />
       </div>
       <div className={styles.buttons}>
