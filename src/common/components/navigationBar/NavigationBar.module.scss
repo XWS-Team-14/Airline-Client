@@ -2,7 +2,7 @@
 
 .wrapper {
   display: flex;
-  width: 1440px;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   margin-right: -1rem !important;
@@ -19,7 +19,7 @@
 .logo {
   width: 33%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   cursor: pointer;
   a {
@@ -41,7 +41,7 @@
   width: 33%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   button {
     margin-right: 0.5rem !important;
   }

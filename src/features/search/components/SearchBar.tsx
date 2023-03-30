@@ -6,7 +6,6 @@ import { fetchPlaces } from '../service/search.service';
 import styles from '../styles/search.module.scss';
 import { SearchParams } from '../types/SearchParams';
 import { SelectOptions } from '../types/SelectOptions';
-import { toast, ToastContainer } from 'react-toastify';
 interface SearchBarProps {
   onDataChanged: (newData: SearchParams | undefined) => void;
 }
@@ -106,6 +105,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
         allowClear={true}
         onChange={changeDate}
         placeholder="Date of departure"
+        format="dddd, MMMM DD, YYYY"
         style={{
           width: '100%',
           backgroundColor: 'white',
