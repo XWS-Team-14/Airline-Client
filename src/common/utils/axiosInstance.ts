@@ -73,6 +73,7 @@ api.interceptors.response.use(
       Router.replace('/');
       return Promise.reject(error);
     } else {
+      Router.replace('/');
       return Promise.reject(error);
     }
   }
