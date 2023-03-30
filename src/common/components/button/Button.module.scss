@@ -35,6 +35,15 @@
   );
 }
 
+.primary:disabled {
+  background-image: linear-gradient(
+    to right,
+    rgb(123, 128, 134) 0%,
+    rgb(163, 180, 192) 100%
+  );
+  cursor: not-allowed;
+}
+
 .secondary {
   @extend %base;
   color: black;

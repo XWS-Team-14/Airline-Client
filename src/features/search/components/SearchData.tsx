@@ -12,6 +12,7 @@ import router from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { fetchData, fetchDataPage } from '../service/search.service';
 import styles from '../styles/search.module.scss';
 import { SearchFlightsDto } from '../types/SearchFlightsDto';
@@ -40,6 +41,9 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
     });
   }, [searchParams]);
 
+  function isSoldOut(flight: SearchFlightsDto) {
+    return flight.number_of_free_spaces <= 0;
+  }
   function buyTickets(id: string, ticketNumber: number) {
     if (userEmail === null) {
       toast.error('You must log in to purchase a ticket.');
@@ -58,15 +62,16 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
       num_of_tickets: ticketNumber,
     };
 
-    ticketService.buyTickets(dto).then((res) => {
-      if (res.status === 200) {
+    ticketService
+      .buyTickets(dto)
+      .then((res) => {
         toast.success('Successfully purchased tickets!');
-      } else {
+      })
+      .catch((err) => {
         toast.error(
           'Unable to purchase tickets due to an error. Please try again later.'
         );
-      }
-    });
+      });
   }
 
   function changePage(url: string) {
@@ -149,7 +154,8 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
                       <Button
                         action={() => buyTickets(item.id, ticketCount)}
                         type="primary"
-                        text="BUY NOW"
+                        text={isSoldOut(item) ? 'Sold out' : 'BUY NOW'}
+                        disabled={isSoldOut(item)}
                       ></Button>
                     </div>
                   </Sider>
