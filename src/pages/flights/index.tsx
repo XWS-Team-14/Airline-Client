@@ -1,14 +1,14 @@
 import BaseTemplate from '@/common/components/baseTemplate/BaseTemplate';
-import AllFlights from '@/features/flights/components/AllFlights';
+import Flights from '@/features/flights/components/Flights';
 
-const AllFlightsPage = () => {
+const FlightsPage = () => {
   return (
     <>
       <BaseTemplate>
-        <AllFlights />
+        <Flights />
       </BaseTemplate>
     </>
   );
 };
 
-export default AllFlightsPage;
+export default FlightsPage;

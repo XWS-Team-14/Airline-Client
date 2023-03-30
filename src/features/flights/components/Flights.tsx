@@ -1,3 +1,4 @@
+import Flight from '@/common/types/Flight';
 import api from '@/common/utils/axiosInstance';
 import {
   ArrowRightOutlined,
@@ -11,11 +12,10 @@ import Moment from 'moment';
 import { useEffect, useState } from 'react';
 import { deleteFlight } from '../services/flight.service';
 import styles from '../styles/flights.module.scss';
-import FlightDto from '../types/FlightDto';
 
-const AllFlights = () => {
+const Flights = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [flights, setFlights] = useState<FlightDto[]>([]);
+  const [flights, setFlights] = useState<Flight[]>([]);
 
   useEffect(() => {
     api
@@ -30,7 +30,7 @@ const AllFlights = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = (dto: FlightDto) => {
+  const handleOk = (dto: Flight) => {
     deleteFlight(dto).then(() => {
       api
         .get('/api/flight/all')
@@ -94,4 +94,4 @@ const AllFlights = () => {
   );
 };
 
-export default AllFlights;
+export default Flights;

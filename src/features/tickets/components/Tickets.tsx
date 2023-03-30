@@ -1,23 +1,13 @@
-import { useEffect, useState } from 'react';
-import { getUserCreds } from '../../auth/services/auth.service';
-import { getUserData } from '../services/tickets.service';
-import styles from '../styles/user.module.scss';
-import UserDetails from '../types/UserDetails';
-
+import { selectEmail } from '@/common/store/slices/authSlice';
+import { UserDetails } from '@/common/types/User';
 import { Card } from 'antd';
-const FetchUserTickets = () => {
-  const [userEmail, setUserEmail] = useState<String>('err');
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getUserCreds();
-        setUserEmail(response.data.email);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getUserData } from '../services/tickets.service';
+import styles from '../styles/tickets.module.scss';
+
+const Tickets = () => {
+  const userEmail = useSelector(selectEmail);
   const [data, setData] = useState<UserDetails>();
   useEffect(() => {
     const fetchData = async () => {
@@ -70,4 +60,4 @@ const FetchUserTickets = () => {
   );
 };
 
-export default FetchUserTickets;
+export default Tickets;

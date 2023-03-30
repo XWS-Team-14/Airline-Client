@@ -1,4 +1,4 @@
-import User from '@/common/types/User';
+import { User } from '@/common/types/User';
 import { createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import { AppState } from '../store';

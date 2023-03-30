@@ -2,8 +2,8 @@ import Airplane from '@/assets/svg/airplane.svg';
 import Arrow from '@/assets/svg/arrow.svg';
 import Button from '@/common/components/button/Button';
 import { selectEmail } from '@/common/store/slices/authSlice';
-import * as ticketService from '@/features/userTicketsPreview/services/tickets.service';
-import PurchaseDto from '@/features/userTicketsPreview/types/PurchaseDto';
+import * as ticketService from '@/features/tickets/services/tickets.service';
+import PurchaseDto from '@/features/tickets/types/PurchaseDto';
 import { Button as AntButton, Layout, List, Modal, Space, Spin } from 'antd';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -206,7 +206,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
       </Modal>
     </div>
   ) : (
-    <div className={styles.loading}>
+    <div className="loading">
       <Spin />
     </div>
   );

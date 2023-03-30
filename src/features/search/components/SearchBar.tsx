@@ -129,7 +129,6 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
       <Button
         action={sendDataToParent}
         type="primary"
-        text=""
         style={{
           borderTopLeftRadius: 0,
           borderBottomLeftRadius: 0,

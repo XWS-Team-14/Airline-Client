@@ -61,8 +61,8 @@ const NavigationBar = () => {
       </div>
       <div className={styles.links}>
         <NavigationLink href="/" text="Home" />
-        <NavigationLink href="/userTickets" text="Tickets" />
-        <NavigationLink href="/flights" text="Flights" />
+        {authState && <NavigationLink href="/tickets" text="Tickets" />}
+        {authState && <NavigationLink href="/flights" text="Flights" />}
       </div>
       <div className={styles.buttons}>
         {authState ? (

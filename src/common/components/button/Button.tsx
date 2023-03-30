@@ -3,9 +3,10 @@ import styles from './Button.module.scss';
 
 interface ButtonProps {
   type: 'primary' | 'secondary' | 'tertiary';
-  text: string;
+  text?: string;
   action?: () => void;
   style?: React.CSSProperties;
+  children?: React.ReactElement;
 }
 
 const Button = ({ type, text, action, style, children }: ButtonProps) => {

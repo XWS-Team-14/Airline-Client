@@ -1,14 +1,14 @@
+import Place from '@/common/types/Place';
 import api from '@/common/utils/axiosInstance';
-import PlaceDto from '../types/PlaceDto';
 import { SearchParams } from '../types/SearchParams';
-import { SelectOptions } from '../types/SelectOptions';
 import { SearchResultDto } from '../types/SearchResultDto';
+import { SelectOptions } from '../types/SelectOptions';
 
 export async function fetchPlaces(): Promise<SelectOptions[]> {
   return api
     .get('/api/place/all')
     .then((res) => {
-      return res.data.results.map((place: PlaceDto) => ({
+      return res.data.results.map((place: Place) => ({
         label: `${place.country}, ${place.airport_city}, ${place.airport_name}`,
         value: place.id,
       }));
