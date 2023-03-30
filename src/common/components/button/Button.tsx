@@ -8,10 +8,13 @@ interface ButtonProps {
   style?: React.CSSProperties;
 }
 
-const Button = ({ type, text, action, style }: ButtonProps) => {
+const Button = ({ type, text, action, style, children }: ButtonProps) => {
   return (
     <button className={classNames(styles[type])} onClick={action} style={style}>
-      {text}
+      <>
+        {text}
+        {children}
+      </>
     </button>
   );
 };

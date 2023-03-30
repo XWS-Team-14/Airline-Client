@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  width: 1240px;
 }
 
 .searchContainer {
@@ -131,4 +132,10 @@
   text-align: center;
   padding: 0px;
   margin: 0px 20px 0px 20px;
+}
+
+.input {
+  div {
+    background-color: blue !important;
+  }
 }
