@@ -34,13 +34,15 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    const {
-      config,
-      response: { status },
-    } = error;
+    const { config, response } = error;
     const originalRequest = config;
 
-    if (status === 401 && !originalRequest.config.url?.includes('auth')) {
+    console.log(originalRequest);
+    console.log(response);
+    if (
+      (response?.status === 401 && !config.url?.includes('auth')) ||
+      response?.detail?.code === 'token_not_valid'
+    ) {
       if (!isRefreshing) {
         isRefreshing = true;
         refresh()
@@ -67,7 +69,7 @@ api.interceptors.response.use(
           });
       }
       return Promise.resolve();
-    } else if (status === 403) {
+    } else if (response?.status === 403) {
       Router.replace('/');
       return Promise.reject(error);
     } else {

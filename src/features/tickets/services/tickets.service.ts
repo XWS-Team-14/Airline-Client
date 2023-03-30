@@ -1,11 +1,8 @@
 import api from '@/common/utils/axiosInstance';
 import PurchaseDto from '../types/PurchaseDto';
 
-export const getUserData = (email: String) => {
-  const response = api
-    .get('/api/user/' + email + '/')
-    .then((result) => result.data);
-  return response;
+export const getUserData = (email: string) => {
+  return api.get(`/api/user/${email}/`).then((result) => result.data);
 };
 
 export const buyTickets = (dto: PurchaseDto) => {

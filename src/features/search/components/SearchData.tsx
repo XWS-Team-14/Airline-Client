@@ -1,10 +1,11 @@
 import Airplane from '@/assets/svg/airplane.svg';
 import Arrow from '@/assets/svg/arrow.svg';
 import Button from '@/common/components/button/Button';
+import Loading from '@/common/components/loading/Loading';
 import { selectEmail } from '@/common/store/slices/authSlice';
 import * as ticketService from '@/features/tickets/services/tickets.service';
 import PurchaseDto from '@/features/tickets/types/PurchaseDto';
-import { Button as AntButton, Layout, List, Modal, Space, Spin } from 'antd';
+import { Button as AntButton, Layout, List, Modal, Space } from 'antd';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import router from 'next/router';
@@ -208,9 +209,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
       </Modal>
     </div>
   ) : (
-    <div className="loading">
-      <Spin />
-    </div>
+    <Loading />
   );
 };
 

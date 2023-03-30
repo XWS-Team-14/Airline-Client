@@ -1,3 +1,4 @@
+import Loading from '@/common/components/loading/Loading';
 import Flight from '@/common/types/Flight';
 import api from '@/common/utils/axiosInstance';
 import {
@@ -16,12 +17,13 @@ import styles from '../styles/flights.module.scss';
 const Flights = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [flights, setFlights] = useState<Flight[]>([]);
-
+  const [fetched, setFetched] = useState(false);
   useEffect(() => {
     api
       .get('/api/flight/all')
       .then((res) => {
         setFlights(Array.from(res.data.results));
+        setFetched(true);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -48,7 +50,7 @@ const Flights = () => {
     setIsModalOpen(false);
   };
 
-  return (
+  return fetched ? (
     <section className={styles.pageWrapper}>
       <div className={styles.wrapper}>
         <h1 className={classNames(styles.title, styles.flightsTitle)}>
@@ -91,6 +93,8 @@ const Flights = () => {
         ))}
       </div>
     </section>
+  ) : (
+    <Loading />
   );
 };
 

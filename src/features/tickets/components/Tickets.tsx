@@ -1,3 +1,4 @@
+import Loading from '@/common/components/loading/Loading';
 import { selectEmail } from '@/common/store/slices/authSlice';
 import { UserDetails } from '@/common/types/User';
 import { Card } from 'antd';
@@ -9,12 +10,14 @@ import styles from '../styles/tickets.module.scss';
 const Tickets = () => {
   const userEmail = useSelector(selectEmail);
   const [data, setData] = useState<UserDetails>();
+  const [fetched, setFetched] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (userEmail !== 'err') {
           const response = await getUserData(userEmail);
           setData(response);
+          setFetched(true);
         }
       } catch (error) {
         console.error(error);
@@ -22,7 +25,7 @@ const Tickets = () => {
     };
     fetchData();
   }, [userEmail]);
-  return (
+  return fetched ? (
     <section>
       <div className={styles.wrapper}>
         <div className={styles.cardHolder}>
@@ -57,6 +60,8 @@ const Tickets = () => {
         </div>
       </div>
     </section>
+  ) : (
+    <Loading />
   );
 };
 
