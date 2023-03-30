@@ -1,0 +1,105 @@
+.searchBarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  flex-direction: column;
+}
+
+.layoutStyle {
+  display: flex;
+  height: 110px;
+  width: 1200px;
+  background: none;
+  border: 1px #7394f9 solid;
+  border-radius: 1rem;
+}
+.contentStyle {
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  background-color: rgb(253, 253, 253);
+}
+.ticketPrice {
+  border-left: 1px #7394f9 solid;
+  border-right: 1px #7394f9 solid;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.ticketPriceCollective {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.priceSpace {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+.centerSvg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.svgs {
+  position: absolute;
+}
+
+.centerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dateDisplay {
+  font-weight: 500;
+  font-size: large;
+}
+
+.centerWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.countryDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 38px;
+}
+
+.cleanParagraph {
+  padding: 0px;
+  margin: 0px;
+  font-size: medium;
+  font-weight: 500;
+  text-align: center;
+}
+
+.centerParagraph {
+  font-size: medium;
+  font-weight: 500;
+  text-align: center;
+  padding: 0px;
+  margin: 0px 20px 0px 20px;
+}
