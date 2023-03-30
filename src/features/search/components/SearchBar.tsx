@@ -50,6 +50,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     setSearchParams(temp);
   };
   function changeNumberOfTickets(value: number | null) {
+    console.log(value);
     setSearchParams({
       start_point: searchParams?.start_point,
       end_point: searchParams?.end_point,
@@ -62,7 +63,8 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     <div className={styles.searchBarContainer}>
       <Select
         showSearch
-        placeholder="FROM"
+        allowClear
+        placeholder="Origin"
         optionFilterProp="children"
         bordered={false}
         style={{
@@ -82,7 +84,8 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
       />
       <Select
         showSearch
-        placeholder="TO"
+        allowClear
+        placeholder="Destination"
         optionFilterProp="children"
         bordered={false}
         style={{
@@ -100,7 +103,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
       />
       <DatePicker
         onChange={changeDate}
-        placeholder="DEPARTURE"
+        placeholder="Date of departure"
         style={{
           width: '100%',
           backgroundColor: 'white',
@@ -115,7 +118,8 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
         onChange={changeNumberOfTickets}
         min={1}
         max={100}
-        placeholder="TICKETS"
+        allowClear
+        placeholder="Number of tickets"
         bordered={false}
         style={{
           width: '100%',
