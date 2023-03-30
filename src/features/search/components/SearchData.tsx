@@ -4,7 +4,7 @@ import Button from '@/common/components/button/Button';
 import { selectEmail } from '@/common/store/slices/authSlice';
 import * as ticketService from '@/features/userTicketsPreview/services/tickets.service';
 import PurchaseDto from '@/features/userTicketsPreview/types/PurchaseDto';
-import { Button as AntButton, Layout, List, Modal, Space } from 'antd';
+import { Button as AntButton, Layout, List, Modal, Space, Spin } from 'antd';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import router from 'next/router';
@@ -26,6 +26,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
   const [previous, setPrevious] = useState('');
   const [purchaseFeedbackText, setPurchaseFeedbackText] = useState<string>('');
   const [open, setOpen] = useState(false);
+  const [fetched, setFetched] = useState(false);
   const userEmail = useSelector(selectEmail);
   const { Content, Sider } = Layout;
 
@@ -34,6 +35,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
       setFlights(data.results);
       setNext(data.next);
       setPrevious(data.previous);
+      setFetched(true);
     });
   }, [searchParams]);
 
@@ -82,7 +84,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
     router.replace('/userTickets');
   }
 
-  return (
+  return fetched ? (
     <div className={styles.searchBarContainer}>
       <Space className={styles.centerContainer}>
         <List
@@ -202,6 +204,10 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
       >
         <p>{purchaseFeedbackText}</p>
       </Modal>
+    </div>
+  ) : (
+    <div className={styles.loading}>
+      <Spin />
     </div>
   );
 };
