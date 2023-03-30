@@ -1,12 +1,8 @@
+import Flight from '@/common/types/Flight';
 import Route from '@/common/types/Route';
 
-export interface SearchFlightsDto {
-  collective_price: number;
-  date_of_departure: Date;
-  id: string;
-  number_of_free_spaces: number;
-  number_of_seats: number;
-  route: Route;
+export interface SearchFlightsDto extends Flight {
+  collective_price?: number;
   status: boolean;
   ticket_price: number;
 }

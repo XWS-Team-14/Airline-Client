@@ -1,13 +1,10 @@
-import Airplane from '@/assets/svg/airplane.svg';
-import Arrow from '@/assets/svg/arrow.svg';
 import Button from '@/common/components/button/Button';
 import Loading from '@/common/components/loading/Loading';
 import { selectEmail } from '@/common/store/slices/authSlice';
+import FlightInfo from '@/features/flights/components/FlightInfo';
 import * as ticketService from '@/features/tickets/services/tickets.service';
 import PurchaseDto from '@/features/tickets/types/PurchaseDto';
 import { Button as AntButton, Layout, List, Modal, Space } from 'antd';
-import classNames from 'classnames';
-import dayjs from 'dayjs';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -102,87 +99,11 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
               ? item.collective_price / item.ticket_price
               : 1;
             return (
-              <List.Item>
-                <Layout
-                  className={classNames(styles.layoutStyle, 'frostedGlass')}
-                >
-                  <Content className={styles.contentStyle}>
-                    <div className={styles.centerWrapper}>
-                      <div className={styles.countryDisplay}>
-                        <p className={styles.centerParagraph}>
-                          <b>
-                            {item.route.start_point.airport_city},{' '}
-                            {regionNames.of(item.route.start_point.country)}
-                          </b>{' '}
-                          <br />
-                          {item.route.start_point.airport_name} Airport
-                        </p>
-                      </div>
-                      <div className={styles.centerContainer}>
-                        <div className={styles.dateDisplay}>
-                          {dayjs(item.date_of_departure).format(
-                            'dddd, MMMM D YYYY, HH:mm'
-                          )}
-                        </div>
-                        <div className={styles.centerSvg}>
-                          <Airplane className={styles.airplane} />
-                          <Arrow className={styles.arrow} />
-                        </div>
-                      </div>
-                      <div className={styles.countryDisplay}>
-                        <p className={styles.centerParagraph}>
-                          <b>
-                            {item.route.end_point.airport_city},{' '}
-                            {regionNames.of(item.route.end_point.country)}
-                          </b>{' '}
-                          <br />
-                          {item.route.end_point.airport_name} Airport
-                        </p>
-                      </div>
-                    </div>
-                  </Content>
-                  <Sider
-                    className={classNames(styles.ticketPrice, {
-                      [styles.borderRadius]: ticketCount <= 1,
-                    })}
-                  >
-                    <div className={styles.priceSpace}>
-                      <div>
-                        <p>Single ticket</p>
-                        <p className={styles.price}>€{item.ticket_price}</p>
-                      </div>
-                      <Button
-                        action={() => buyTickets(item.id, ticketCount)}
-                        type="primary"
-                        text={isSoldOut(item) ? 'Sold out' : 'BUY NOW'}
-                        disabled={isSoldOut(item)}
-                      ></Button>
-                    </div>
-                  </Sider>
-                  {ticketCount > 1 && (
-                    <div
-                      className={classNames(
-                        styles.ticketPrice,
-                        styles.borderRadius
-                      )}
-                    >
-                      <div className={styles.priceSpace}>
-                        <div>
-                          <p>{ticketCount} tickets</p>
-                          <p className={styles.price}>
-                            €{item.collective_price}
-                          </p>
-                        </div>
-                        <Button
-                          action={() => buyTickets(item.id, ticketCount)}
-                          type="primary"
-                          text="BUY NOW"
-                        ></Button>
-                      </div>
-                    </div>
-                  )}
-                </Layout>
-              </List.Item>
+              <FlightInfo
+                item={item}
+                page="Search"
+                buyAction={() => buyTickets(item.id, ticketCount)}
+              />
             );
           }}
         />

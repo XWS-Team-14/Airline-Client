@@ -57,7 +57,10 @@ const Flights = () => {
           Flights
         </h1>
         {flights.map((flight) => (
-          <div className={styles.flightCard} key={flight.id}>
+          <div
+            className={classNames(styles.flightCard, 'frostedGlass')}
+            key={flight.id}
+          >
             <div className={styles.flightCardContent}>
               <CompassOutlined /> {flight.route.start_point.country}:{' '}
               {flight.route.start_point.airport_city} <ArrowRightOutlined />{' '}

@@ -4,28 +4,14 @@
   width: 100%;
   align-items: center;
   flex-direction: column;
-  margin-top: 100px;
-}
-.pageWrapper {
-  overflow: hidden;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100vw;
-  position: relative;
 }
 .flightCard {
-  width: 58%;
+  width: 1240px;
   height: 10%;
-  border: 3px solid lightblue;
-  border-radius: 15px;
-  margin-bottom: 15px;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
   padding: 20px;
   text-align: center;
-  background-color: aliceblue;
-}
-.flightCard:hover {
-  border: 3px solid mediumslateblue;
 }
 
 .flightCard .flightCardContent {
@@ -40,8 +26,7 @@
 }
 
 .flightForm {
-  max-width: 300px;
-  width: 100%;
+  width: 400px;
   padding: 2rem;
   margin-top: 3rem;
   border-radius: 0.5rem;
