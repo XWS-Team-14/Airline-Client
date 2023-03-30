@@ -40,7 +40,7 @@ api.interceptors.response.use(
     } = error;
     const originalRequest = config;
 
-    if (status === 401 && Router.pathname !== '/login') {
+    if (status === 401 && !originalRequest.config.url?.includes('auth')) {
       if (!isRefreshing) {
         isRefreshing = true;
         refresh()

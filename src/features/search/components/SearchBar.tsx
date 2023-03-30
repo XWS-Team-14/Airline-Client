@@ -6,6 +6,7 @@ import { fetchPlaces } from '../service/search.service';
 import styles from '../styles/search.module.scss';
 import { SearchParams } from '../types/SearchParams';
 import { SelectOptions } from '../types/SelectOptions';
+import { toast, ToastContainer } from 'react-toastify';
 interface SearchBarProps {
   onDataChanged: (newData: SearchParams | undefined) => void;
 }
@@ -102,6 +103,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
         onChange={changeEndPoint}
       />
       <DatePicker
+        allowClear={true}
         onChange={changeDate}
         placeholder="Date of departure"
         style={{
@@ -118,7 +120,6 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
         onChange={changeNumberOfTickets}
         min={1}
         max={100}
-        allowClear
         placeholder="Number of tickets"
         bordered={false}
         style={{

@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { fetchData, fetchDataPage } from '../service/search.service';
 import styles from '../styles/search.module.scss';
 import { SearchFlightsDto } from '../types/SearchFlightsDto';
@@ -58,12 +58,13 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
     };
 
     ticketService.buyTickets(dto).then((res) => {
-      setPurchaseFeedbackText(
-        res.status === 200
-          ? 'Succesfully purchased tickets.'
-          : 'Unable to purchase tickets due to an error. Please try again later.'
-      );
-      showModal();
+      if (res.status === 200) {
+        toast.success('Successfully purchased tickets!');
+      } else {
+        toast.error(
+          'Unable to purchase tickets due to an error. Please try again later.'
+        );
+      }
     });
   }
 
@@ -86,6 +87,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
 
   return fetched ? (
     <div className={styles.searchBarContainer}>
+      <ToastContainer />
       <Space className={styles.centerContainer}>
         <List
           dataSource={flights}
