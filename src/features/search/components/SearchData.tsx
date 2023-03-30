@@ -1,11 +1,16 @@
 import Button from '@/common/components/button/Button';
-import { Layout, List, Space } from 'antd';
+import { Layout, List, Modal, notification, Space } from 'antd';
+import {Button as AntButton} from 'antd';
 import { useEffect, useState } from 'react';
 import { fetchData, fetchDataPage } from '../service/search.service';
 import { SearchFlightsDto } from '../types/SearchFlightsDto';
 import { SearchParams } from '../types/SearchParams';
 import styles from '../styles/search.module.scss';
-
+import {getUserCreds} from '../../auth/services/auth.service';
+import PurchaseDto from '@/features/userTicketsPreview/types/PurchaseDto';
+import *  as ticketService from '@/features/userTicketsPreview/services/tickets.service'; 
+import router from 'next/router';
+import { toast } from 'react-toastify';
 interface SearchDataProps {
   searchParams: SearchParams | undefined;
 }
@@ -15,18 +20,42 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
   const [next, setNext] = useState('');
   const [previous, setPrevious] = useState('');
   const { Content, Sider } = Layout;
-
+  const [userEmail, setUserEmail] = useState<string>("err");
+  const [purchaseFeedbackText, setPurchaseFeedbackText] = useState<string>("");
   useEffect(() => {
     fetchData(searchParams).then((data) => {
       setFlights(data.results);
       setNext(data.next);
       setPrevious(data.previous);
     });
+    getUserCreds().then((userDetails) =>{
+      if(userDetails!=null){
+        setUserEmail(userDetails.data.email);
+      }
+    });
   }, [searchParams]);
 
   function buyTickets(id: string, ticketNumber: number) {
+    console.log(userEmail);
     console.log(id);
     console.log(ticketNumber);
+    if(userEmail==="err"){
+        toast.error("User must be logged in to purchase tickets.");
+        router.replace('/login'); 
+        return;
+      }
+    if(ticketNumber==0){toast.error("User cannot purchase 0 tickets, use the search function"); return;}
+    var dto : PurchaseDto = {flight_id : id,user_email : userEmail,num_of_tickets : ticketNumber};
+    ticketService.buyTickets(dto).then(
+      (res)=>{
+        var resText="Error unable to purchase tickets";
+        if(res.status===200){
+          resText = "Succesfully purchased tickets."
+        }
+        setPurchaseFeedbackText(resText);
+        showModal();
+      }
+    )
   }
 
   function changePage(url: string) {
@@ -36,6 +65,13 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
       setNext(data.next);
       setPrevious(data.previous);
     });
+  }
+  const [open, setOpen] = useState(false);
+  const showModal = () => {
+    setOpen(true);
+  };
+  function handleOk(){
+    router.replace('/userTickets');
   }
 
   return (
@@ -143,6 +179,18 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
           />
         </Space>
       </Space>
+      <Modal
+        open={open}
+        title="Ticket purchase feedback"
+        onOk={handleOk}
+        footer={[
+          <AntButton key="back" onClick={handleOk}>
+            Go to tickets
+          </AntButton>
+        ]}
+      >
+        <p>{purchaseFeedbackText}</p>
+      </Modal>
     </div>
   );
 };
