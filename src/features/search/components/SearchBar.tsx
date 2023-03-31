@@ -27,7 +27,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     let temp: SearchParams = {
       start_point: value,
       end_point: searchParams?.end_point,
-      date: dayjs(searchParams?.date).format('YYYY-MM-DD'),
+      date: searchParams?.date,
       number_of_tickets: searchParams?.number_of_tickets,
     };
     setSearchParams(temp);
@@ -36,16 +36,17 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     let temp: SearchParams = {
       start_point: searchParams?.start_point,
       end_point: value,
-      date: dayjs(searchParams?.date).format('YYYY-MM-DD'),
+      date: searchParams?.date,
       number_of_tickets: searchParams?.number_of_tickets,
     };
     setSearchParams(temp);
   }
   const changeDate: DatePickerProps['onChange'] = (date, value) => {
+    console.log(date, value);
     let temp: SearchParams = {
       start_point: searchParams?.start_point,
       end_point: searchParams?.end_point,
-      date: dayjs(value).format('YYYY-MM-DD'),
+      date: value ? dayjs(value).format('YYYY-MM-DD') : undefined,
       number_of_tickets: searchParams?.number_of_tickets,
     };
     setSearchParams(temp);
@@ -54,7 +55,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     setSearchParams({
       start_point: searchParams?.start_point,
       end_point: searchParams?.end_point,
-      date: dayjs(searchParams?.date).format('YYYY-MM-DD'),
+      date: searchParams?.date,
       number_of_tickets: value ? value : 1,
     });
   }
