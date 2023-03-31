@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import Button from '@/common/components/button/Button';
+import Route from '@/common/types/Route';
 import api from '@/common/utils/axiosInstance';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { DatePicker, Form, InputNumber, Select } from 'antd';
@@ -7,7 +8,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addFlight } from '../services/flight.service';
 import styles from '../styles/flights.module.scss';
@@ -15,8 +16,8 @@ import styles from '../styles/flights.module.scss';
 const AddFlight = () => {
   const [form] = Form.useForm();
   const router = useRouter();
-  const [routes, setRoutes] = useState<any[]>([]);
-  const [selectedRoute, setSelectedRoute] = useState<any>(null);
+  const [routes, setRoutes] = useState<Route[]>([]);
+  const [selectedRoute, setSelectedRoute] = useState<Route>(null);
 
   useEffect(() => {
     api.get('api/route/all/places/').then((res) => {
@@ -38,7 +39,19 @@ const AddFlight = () => {
       .then((res) => {
         router.push('/flights');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error(err);
+        err.response.data.non_field_errors.map((error: string) => {
+          toast.error(error);
+        });
+      });
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+    errorInfo.errorFields.map((error: any) => {
+      toast.error(error.errors[0]);
+    });
   };
 
   return (
@@ -49,13 +62,16 @@ const AddFlight = () => {
           form={form}
           className={classNames(styles.flightForm, 'frostedGlass')}
           onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
         >
           <h1 className={styles.title}>New flight</h1>
           <Form.Item
             name="Route"
-            rules={[{ required: true, message: selectedRoute }]}
+            rules={[{ required: true, message: 'Route is required.' }]}
           >
             <Select
+              allowClear
+              placeholder="Route"
               className={styles.input}
               value={selectedRoute}
               onChange={(value) => {
@@ -82,6 +98,7 @@ const AddFlight = () => {
             style={{ width: '100%' }}
           >
             <DatePicker
+              allowClear
               placeholder="Date and time of departure"
               showTime
               showNow={true}
