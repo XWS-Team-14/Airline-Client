@@ -2,8 +2,9 @@
 import Button from '@/common/components/button/Button';
 import api from '@/common/utils/axiosInstance';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import { Form, Input, Select } from 'antd';
+import { DatePicker, Form, InputNumber, Select } from 'antd';
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
@@ -24,11 +25,11 @@ const AddFlight = () => {
   }, []);
 
   const onFinish = async (values: any) => {
-    values.date_of_departure;
     await addFlight({
       route: selectedRoute,
-      date_of_departure:
-        values.date_of_departure + 'T' + values.time_of_departure + ':00Z',
+      date_of_departure: dayjs(values.date_of_departure).format(
+        'YYYY-MM-DD HH:mm'
+      ),
       ticket_price: values.ticket_price,
       number_of_seats: values.number_of_seats,
       number_of_free_spaces: values.number_of_seats,
@@ -73,36 +74,36 @@ const AddFlight = () => {
           <Form.Item
             name="date_of_departure"
             rules={[
-              { required: true, message: 'Date of departure is required.' },
+              {
+                required: true,
+                message: 'Date and time of departure is required.',
+              },
             ]}
+            style={{ width: '100%' }}
           >
-            <Input
-              className={styles.input}
-              type="date"
-              placeholder="Date of departure"
-            />
-          </Form.Item>
-          <Form.Item
-            name="time_of_departure"
-            rules={[
-              { required: true, message: 'Time of departure is required.' },
-            ]}
-          >
-            <Input
-              className={styles.input}
-              type="time"
-              placeholder="Time of departure"
-            />
+            <DatePicker
+              placeholder="Date and time of departure"
+              showTime
+              showNow={true}
+              showToday={true}
+              disabledDate={(current) =>
+                current && current.valueOf() < Date.now()
+              }
+              format="MMMM DD, YYYY, HH:mm"
+              style={{ width: '100%' }}
+            ></DatePicker>
           </Form.Item>
           <Form.Item
             name="ticket_price"
             rules={[{ required: true, message: 'Ticket price is required.' }]}
           >
-            <Input
-              type="number"
+            <InputNumber
               className={styles.input}
               placeholder="Price"
               prefix="€"
+              style={{
+                width: '100%',
+              }}
             />
           </Form.Item>
           <Form.Item
@@ -111,10 +112,12 @@ const AddFlight = () => {
               { required: true, message: 'Number of seats is required.' },
             ]}
           >
-            <Input
-              type="number"
+            <InputNumber
               className={styles.input}
               placeholder="Capacity"
+              style={{
+                width: '100%',
+              }}
             />
           </Form.Item>
           <Form.Item className={styles.submit}>
