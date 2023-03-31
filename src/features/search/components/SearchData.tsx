@@ -1,16 +1,15 @@
 import Button from '@/common/components/button/Button';
-import { Layout, List, Modal, notification, Space } from 'antd';
-import {Button as AntButton} from 'antd';
+import * as ticketService from '@/features/userTicketsPreview/services/tickets.service';
+import PurchaseDto from '@/features/userTicketsPreview/types/PurchaseDto';
+import { Button as AntButton, Layout, List, Modal, Space } from 'antd';
+import router from 'next/router';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { getUserCreds } from '../../auth/services/auth.service';
 import { fetchData, fetchDataPage } from '../service/search.service';
+import styles from '../styles/search.module.scss';
 import { SearchFlightsDto } from '../types/SearchFlightsDto';
 import { SearchParams } from '../types/SearchParams';
-import styles from '../styles/search.module.scss';
-import {getUserCreds} from '../../auth/services/auth.service';
-import PurchaseDto from '@/features/userTicketsPreview/types/PurchaseDto';
-import *  as ticketService from '@/features/userTicketsPreview/services/tickets.service'; 
-import router from 'next/router';
-import { toast } from 'react-toastify';
 interface SearchDataProps {
   searchParams: SearchParams | undefined;
 }
@@ -20,16 +19,16 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
   const [next, setNext] = useState('');
   const [previous, setPrevious] = useState('');
   const { Content, Sider } = Layout;
-  const [userEmail, setUserEmail] = useState<string>("err");
-  const [purchaseFeedbackText, setPurchaseFeedbackText] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>('err');
+  const [purchaseFeedbackText, setPurchaseFeedbackText] = useState<string>('');
   useEffect(() => {
     fetchData(searchParams).then((data) => {
       setFlights(data.results);
       setNext(data.next);
       setPrevious(data.previous);
     });
-    getUserCreds().then((userDetails) =>{
-      if(userDetails!=null){
+    getUserCreds().then((userDetails) => {
+      if (userDetails !== null) {
         setUserEmail(userDetails.data.email);
       }
     });
@@ -39,23 +38,28 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
     console.log(userEmail);
     console.log(id);
     console.log(ticketNumber);
-    if(userEmail==="err"){
-        toast.error("User must be logged in to purchase tickets.");
-        router.replace('/login'); 
-        return;
+    if (userEmail === 'err') {
+      toast.error('User must be logged in to purchase tickets.');
+      router.replace('/login');
+      return;
+    }
+    if (ticketNumber === 0) {
+      toast.error('User cannot purchase 0 tickets, use the search function');
+      return;
+    }
+    let dto: PurchaseDto = {
+      flight_id: id,
+      user_email: userEmail,
+      num_of_tickets: ticketNumber,
+    };
+    ticketService.buyTickets(dto).then((res) => {
+      let resText = 'Error unable to purchase tickets';
+      if (res.status === 200) {
+        resText = 'Succesfully purchased tickets.';
       }
-    if(ticketNumber==0){toast.error("User cannot purchase 0 tickets, use the search function"); return;}
-    var dto : PurchaseDto = {flight_id : id,user_email : userEmail,num_of_tickets : ticketNumber};
-    ticketService.buyTickets(dto).then(
-      (res)=>{
-        var resText="Error unable to purchase tickets";
-        if(res.status===200){
-          resText = "Succesfully purchased tickets."
-        }
-        setPurchaseFeedbackText(resText);
-        showModal();
-      }
-    )
+      setPurchaseFeedbackText(resText);
+      showModal();
+    });
   }
 
   function changePage(url: string) {
@@ -70,7 +74,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
   const showModal = () => {
     setOpen(true);
   };
-  function handleOk(){
+  function handleOk() {
     router.replace('/userTickets');
   }
 
@@ -118,7 +122,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
                     <Space className={styles.countryDisplay}>
                       <p className={styles.centerParagraph}>
                         {item.route.end_point.airport_city} <br />
-                        {item.route.end_point.country} - &apos; 
+                        {item.route.end_point.country} - &apos;
                         {item.route.end_point.airport_name}&apos;
                       </p>
                     </Space>
@@ -186,7 +190,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
         footer={[
           <AntButton key="back" onClick={handleOk}>
             Go to tickets
-          </AntButton>
+          </AntButton>,
         ]}
       >
         <p>{purchaseFeedbackText}</p>
