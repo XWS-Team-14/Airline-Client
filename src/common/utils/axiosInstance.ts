@@ -36,7 +36,7 @@ api.interceptors.response.use(
   (error) => {
     const { config, response } = error;
     const originalRequest = config;
-
+    console.log(Router.pathname);
     console.log(originalRequest);
     console.log(response);
     if (
@@ -72,8 +72,10 @@ api.interceptors.response.use(
     } else if (response?.status === 403) {
       Router.replace('/');
       return Promise.reject(error);
-    } else {
+    } else if (!Router.pathname.includes('login')) {
       Router.replace('/');
+      return Promise.reject(error);
+    } else {
       return Promise.reject(error);
     }
   }
