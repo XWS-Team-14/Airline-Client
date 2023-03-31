@@ -9,7 +9,7 @@ import styles from '../../search/styles/search.module.scss';
 
 interface FlightInfoProps {
   item: SearchFlightsDto;
-  page: 'Search' | 'Overview';
+  page: 'Search' | 'Overview' | 'Ticket';
   buyAction?: () => void;
   cancelAction?: () => void;
 }
@@ -22,9 +22,6 @@ const FlightInfo = ({
 }: FlightInfoProps) => {
   const isSoldOut = () => item.number_of_free_spaces <= 0;
   const { Content, Sider } = Layout;
-  //const ticketCount = item.collective_price
-  //? item.collective_price / item.ticket_price
-  //: 1;
   const ticketCount = () => {
     if (page === 'Search') {
       return item.collective_price
