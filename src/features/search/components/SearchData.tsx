@@ -61,7 +61,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
     ticketService
       .buyTickets(dto)
       .then(() => {
-        toast.success('Successfully purchased tickets!');
+        toast.success('Successfully purchased!');
       })
       .catch((err) => {
         console.error(err);
