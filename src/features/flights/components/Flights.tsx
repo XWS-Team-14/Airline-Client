@@ -2,13 +2,14 @@ import Button from '@/common/components/button/Button';
 import Loading from '@/common/components/loading/Loading';
 import { selectUser } from '@/common/store/slices/authSlice';
 import Flight from '@/common/types/Flight';
-import { List, Modal } from 'antd';
+import { List, Modal, Space } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { fetchDataPage } from '../../search/service/search.service';
 import { deleteFlight, getFlights } from '../services/flight.service';
 import styles from '../styles/flights.module.scss';
 import FlightInfo from './FlightInfo';
@@ -20,6 +21,8 @@ const Flights = () => {
   const [selected, setSelected] = useState<Flight | null>(null);
   const user = useSelector(selectUser);
   const router = useRouter();
+  const [next, setNext] = useState('');
+  const [previous, setPrevious] = useState('');
 
   useEffect(() => {
     if (!user.isAdmin) {
@@ -32,6 +35,8 @@ const Flights = () => {
     await getFlights()
       .then((res) => {
         setFlights(res.data.results);
+        setNext(res.data.next);
+        setPrevious(res.data.previous);
         setFetched(true);
       })
       .catch((err) => console.log(err));
@@ -56,7 +61,14 @@ const Flights = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+  function changePage(url: string) {
+    if (url === null) return;
+    fetchDataPage(url).then((data) => {
+      setFlights(data.results);
+      setNext(data.next);
+      setPrevious(data.previous);
+    });
+  }
   return fetched ? (
     <div className={styles.wrapper}>
       <ToastContainer />
@@ -75,6 +87,24 @@ const Flights = () => {
           </>
         )}
       />
+      <Space className={styles.centerWrapper}>
+        {previous && (
+          <Button
+            type="secondary"
+            action={() => changePage(previous)}
+            text="< Previous"
+            style={{ width: 120 }}
+          />
+        )}
+        {next && (
+          <Button
+            type="secondary"
+            action={() => changePage(next)}
+            text="Next >"
+            style={{ width: 120 }}
+          />
+        )}
+      </Space>
       {selected !== null && (
         <Modal
           title="Cancel flight"

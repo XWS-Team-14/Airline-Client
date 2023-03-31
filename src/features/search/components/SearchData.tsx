@@ -109,18 +109,22 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
           }}
         />
         <Space className={styles.centerWrapper}>
-          <Button
-            type="secondary"
-            action={() => changePage(previous)}
-            text="< Previous"
-            style={{ width: 120 }}
-          />
-          <Button
-            type="secondary"
-            action={() => changePage(next)}
-            text="Next >"
-            style={{ width: 120 }}
-          />
+          {previous && (
+            <Button
+              type="secondary"
+              action={() => changePage(previous)}
+              text="< Previous"
+              style={{ width: 120 }}
+            />
+          )}
+          {next && (
+            <Button
+              type="secondary"
+              action={() => changePage(next)}
+              text="Next >"
+              style={{ width: 120 }}
+            />
+          )}
         </Space>
       </Space>
       <Modal
