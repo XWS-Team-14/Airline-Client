@@ -10,7 +10,7 @@ import {
 import { store } from '../store/store';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  baseURL: 'http://localhost:8000/',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
