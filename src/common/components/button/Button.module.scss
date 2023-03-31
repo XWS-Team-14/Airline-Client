@@ -52,3 +52,25 @@
 
 .tertiary {
 }
+
+.danger {
+  @extend %base;
+  background-image: linear-gradient(
+    to right,
+    rgb(235, 85, 103) 0%,
+    rgb(255, 122, 171) 100%
+  );
+  color: white;
+  font-weight: 600;
+  box-shadow: rgba(255, 0, 0, 0.2) 0px 2px 15px;
+}
+
+.danger:hover {
+  text-decoration: none;
+  background-position: right center;
+  background-image: linear-gradient(
+    to right,
+    rgb(255, 126, 141) 0%,
+    rgb(255, 152, 190) 100%
+  );
+}

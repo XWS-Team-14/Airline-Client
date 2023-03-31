@@ -1,23 +1,22 @@
+import Button from '@/common/components/button/Button';
 import Loading from '@/common/components/loading/Loading';
 import Flight from '@/common/types/Flight';
 import api from '@/common/utils/axiosInstance';
-import {
-  ArrowRightOutlined,
-  ClockCircleOutlined,
-  CompassOutlined,
-  EuroCircleOutlined,
-} from '@ant-design/icons';
-import { Button, Divider, Modal } from 'antd';
-import classNames from 'classnames';
-import Moment from 'moment';
+import { List, Modal } from 'antd';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { deleteFlight } from '../services/flight.service';
 import styles from '../styles/flights.module.scss';
+import FlightInfo from './FlightInfo';
 
 const Flights = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [flights, setFlights] = useState<Flight[]>([]);
   const [fetched, setFetched] = useState(false);
+  const [selected, setSelected] = useState<Flight | null>(null);
+
   useEffect(() => {
     api
       .get('/api/flight/all')
@@ -28,8 +27,9 @@ const Flights = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const showModal = () => {
+  const showModal = (item: Flight) => {
     setIsModalOpen(true);
+    setSelected(item);
   };
 
   const handleOk = (dto: Flight) => {
@@ -38,9 +38,11 @@ const Flights = () => {
         .get('/api/flight/all')
         .then((res) => {
           setFlights(Array.from(res.data.results));
+          toast.success('Successfully cancelled flight.');
         })
         .catch((err) => {
           console.log(err);
+          toast.success('Unable to cancel flight due to an error.');
         });
       setIsModalOpen(false);
     });
@@ -51,51 +53,38 @@ const Flights = () => {
   };
 
   return fetched ? (
-    <section className={styles.pageWrapper}>
-      <div className={styles.wrapper}>
-        <h1 className={classNames(styles.title, styles.flightsTitle)}>
-          Flights
-        </h1>
-        {flights.map((flight) => (
-          <div
-            className={classNames(styles.flightCard, 'frostedGlass')}
-            key={flight.id}
-          >
-            <div className={styles.flightCardContent}>
-              <CompassOutlined /> {flight.route.start_point.country}:{' '}
-              {flight.route.start_point.airport_city} <ArrowRightOutlined />{' '}
-              {flight.route.end_point.country}:{' '}
-              {flight.route.end_point.airport_city}
-              <Divider type="vertical" /> <ClockCircleOutlined /> :{' '}
-              {Moment(flight.date_of_departure).format('DD.MM.yyyy HH:mm')}
-              <Divider type="vertical" /> <EuroCircleOutlined /> :{' '}
-              {flight.ticket_price} <Divider type="vertical" /> Free seats:{' '}
-              {flight.number_of_free_spaces}/{flight.number_of_seats}
-              <Divider type="vertical" />
-              <Button
-                type="primary"
-                danger
-                className={styles.cancelButton}
-                onClick={() => showModal()}
-              >
-                Cancel
-              </Button>
-              <Modal
-                title="Cancel flight"
-                okText="Yes"
-                cancelText="No"
-                okButtonProps={{ danger: true }}
-                open={isModalOpen}
-                onOk={() => handleOk(flight)}
-                onCancel={handleCancel}
-              >
-                <p>Are you sure you want to cancel this flight?</p>
-              </Modal>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
+    <div className={styles.wrapper}>
+      <ToastContainer />
+      <Link href="/flights/add">
+        <Button type="secondary" text="Add a new flight"></Button>
+      </Link>
+      <List
+        dataSource={flights}
+        renderItem={(item) => (
+          <>
+            <FlightInfo
+              item={item}
+              page="Overview"
+              cancelAction={() => showModal(item)}
+            />
+          </>
+        )}
+      />
+      {selected !== null && (
+        <Modal
+          title="Cancel flight"
+          okText="Yes"
+          centered={true}
+          cancelText="No"
+          okButtonProps={{ danger: true }}
+          open={isModalOpen}
+          onOk={() => handleOk(selected)}
+          onCancel={handleCancel}
+        >
+          <p>Are you sure you want to cancel this flight?</p>
+        </Modal>
+      )}
+    </div>
   ) : (
     <Loading />
   );

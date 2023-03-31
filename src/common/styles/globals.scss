@@ -4,7 +4,7 @@
 
 html,
 body {
-  max-width: 100vw;
+  width: 100vw;
   padding: 0;
   margin: 0 !important;
   overflow-x: hidden;
@@ -76,4 +76,13 @@ a {
   .ant-spin {
     z-index: 3;
   }
+}
+
+.ant-modal {
+  max-width: unset;
+  margin: unset;
+}
+
+.ant-modal-centered::before {
+  content: unset;
 }

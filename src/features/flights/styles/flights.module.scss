@@ -4,6 +4,9 @@
   width: 100%;
   align-items: center;
   flex-direction: column;
+  a {
+    align-self: flex-end;
+  }
 }
 .flightCard {
   width: 1240px;

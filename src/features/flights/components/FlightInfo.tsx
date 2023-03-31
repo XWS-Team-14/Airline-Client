@@ -11,9 +11,15 @@ interface FlightInfoProps {
   item: SearchFlightsDto;
   page: 'Search' | 'Overview';
   buyAction?: () => void;
+  cancelAction?: () => void;
 }
 
-const FlightInfo = ({ item, page, buyAction }: FlightInfoProps) => {
+const FlightInfo = ({
+  item,
+  page,
+  buyAction,
+  cancelAction,
+}: FlightInfoProps) => {
   const isSoldOut = () => item.number_of_free_spaces <= 0;
   const { Content, Sider } = Layout;
   //const ticketCount = item.collective_price
@@ -77,16 +83,37 @@ const FlightInfo = ({ item, page, buyAction }: FlightInfoProps) => {
               <p>Single ticket</p>
               <p className={styles.price}>€{item.ticket_price}</p>
             </div>
+            {page === 'Overview' && (
+              <div>
+                <p>Free seats</p>
+                <p className={styles.price}>
+                  {item.number_of_free_spaces} / {item.number_of_seats}
+                </p>
+              </div>
+            )}
             {buyAction && (
-              <Button
-                action={buyAction}
-                type="primary"
-                text={isSoldOut() ? 'Sold out' : 'BUY NOW'}
-                disabled={isSoldOut()}
-              ></Button>
+              <div>
+                <Button
+                  action={buyAction}
+                  type="primary"
+                  text={isSoldOut() ? 'Sold out' : 'BUY NOW'}
+                  disabled={isSoldOut()}
+                ></Button>
+              </div>
             )}
           </div>
         </Sider>
+        {page === 'Overview' && (
+          <Sider className={styles.ticketPrice}>
+            <div className={styles.priceSpace}>
+              <Button
+                action={cancelAction}
+                type="danger"
+                text="Cancel"
+              ></Button>
+            </div>
+          </Sider>
+        )}
         {ticketCount() > 1 && (
           <div className={classNames(styles.ticketPrice, styles.borderRadius)}>
             <div className={styles.priceSpace}>
