@@ -1,6 +1,7 @@
 import Button from '@/common/components/button/Button';
 import { SearchOutlined } from '@ant-design/icons';
 import { DatePicker, DatePickerProps, InputNumber, Select } from 'antd';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { fetchPlaces } from '../service/search.service';
 import styles from '../styles/search.module.scss';
@@ -26,7 +27,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     let temp: SearchParams = {
       start_point: value,
       end_point: searchParams?.end_point,
-      date: searchParams?.date,
+      date: dayjs(searchParams?.date).format('YYYY-MM-DD'),
       number_of_tickets: searchParams?.number_of_tickets,
     };
     setSearchParams(temp);
@@ -35,7 +36,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     let temp: SearchParams = {
       start_point: searchParams?.start_point,
       end_point: value,
-      date: searchParams?.date,
+      date: dayjs(searchParams?.date).format('YYYY-MM-DD'),
       number_of_tickets: searchParams?.number_of_tickets,
     };
     setSearchParams(temp);
@@ -44,7 +45,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     let temp: SearchParams = {
       start_point: searchParams?.start_point,
       end_point: searchParams?.end_point,
-      date: value,
+      date: dayjs(value).format('YYYY-MM-DD'),
       number_of_tickets: searchParams?.number_of_tickets,
     };
     setSearchParams(temp);
@@ -53,7 +54,7 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     setSearchParams({
       start_point: searchParams?.start_point,
       end_point: searchParams?.end_point,
-      date: searchParams?.date,
+      date: dayjs(searchParams?.date).format('YYYY-MM-DD'),
       number_of_tickets: value ? value : 1,
     });
   }

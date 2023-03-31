@@ -61,10 +61,11 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
 
     ticketService
       .buyTickets(dto)
-      .then((res) => {
+      .then(() => {
         toast.success('Successfully purchased tickets!');
       })
       .catch((err) => {
+        console.error(err);
         toast.error(
           'Unable to purchase tickets due to an error. Please try again later.'
         );
