@@ -10,21 +10,11 @@ import {
 import { store } from '../store/store';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  baseURL: 'http://localhost:8000/',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
-  transformRequest: [
-    (data) => {
-      return JSON.stringify(data);
-    },
-  ],
-  transformResponse: [
-    (data) => {
-      return JSON.parse(data);
-    },
-  ],
 });
 
 let isRefreshing = false;
@@ -33,18 +23,18 @@ api.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
-    const {
-      config,
-      response: { status },
-    } = error;
+  async (error) => {
+    const { config, response } = error;
     const originalRequest = config;
-
-    if (status === 401 && Router.pathname !== '/login') {
+    let retValue;
+    if (
+      (response?.status === 401 && !originalRequest.url?.includes('auth')) ||
+      response?.detail?.code === 'token_not_valid'
+    ) {
       if (!isRefreshing) {
         isRefreshing = true;
-        refresh()
-          .then((res) => {
+        await refresh()
+          .then(async (res) => {
             isRefreshing = false;
             const setHeaders = async () => {
               api.defaults.headers.common.Authorization =
@@ -52,11 +42,8 @@ api.interceptors.response.use(
               originalRequest.headers.Authorization =
                 'Bearer ' + res.data.access;
             };
-            return setHeaders().then(async () => {
-              const retry = await new Promise((resolve, reject) => {
-                resolve(api(originalRequest));
-              });
-              return retry;
+            return await setHeaders().then(async () => {
+              retValue = Promise.resolve(api(originalRequest));
             });
           })
           .catch((err) => {
@@ -65,9 +52,13 @@ api.interceptors.response.use(
             store.dispatch(setUserFirstName(null));
             store.dispatch(setUserLastName(null));
           });
+
+        return retValue;
       }
-      return Promise.resolve();
-    } else if (status === 403) {
+    } else if (response?.status === 403) {
+      Router.replace('/');
+      return Promise.reject(error);
+    } else if (!Router.pathname.includes('login')) {
       Router.replace('/');
       return Promise.reject(error);
     } else {

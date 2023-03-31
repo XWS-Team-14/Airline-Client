@@ -2,11 +2,13 @@ import Button from '@/common/components/button/Button';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input } from 'antd';
 import { useRouter } from 'next/dist/client/router';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 import Link from 'next/link';
 
-import { useState } from 'react';
+import { selectUser } from '@/common/store/slices/authSlice';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { register } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
@@ -16,6 +18,15 @@ const SignUp = () => {
   const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
+
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    if (user.email !== null) {
+      router.push('/');
+    }
+  }, [user]);
+
   const onFinish = (values: RegisterDto) => {
     console.log('Success:', values);
     register({

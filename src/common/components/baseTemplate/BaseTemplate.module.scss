@@ -10,15 +10,14 @@
 
 .header {
   padding-top: 1rem;
-  position: fixed;
+  position: absolute;
   top: 0;
   z-index: 1;
   width: 100%;
-  max-width: 1440px;
+  max-width: 1240px;
   display: flex;
   align-items: center;
   height: 4rem;
-  align-self: flex-start;
 }
 
 .contentLayout {

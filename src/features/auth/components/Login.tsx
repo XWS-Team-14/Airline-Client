@@ -1,8 +1,10 @@
 import Button from '@/common/components/button/Button';
 import {
+  selectUser,
   setAuthState,
   setUserEmail,
   setUserFirstName,
+  setUserIsAdmin,
   setUserLastName,
 } from '@/common/store/slices/authSlice';
 import api from '@/common/utils/axiosInstance';
@@ -11,10 +13,11 @@ import { Form, Input } from 'antd';
 
 import Link from 'next/link';
 
+import parseJwt from '@/common/utils/jwtHelper';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { toast, ToastContainer } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getCurrentUserData, login } from '../services/auth.service';
 import styles from '../styles/auth.module.scss';
@@ -25,6 +28,14 @@ const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    if (user.email !== null) {
+      router.push('/');
+    }
+  }, [user]);
+
   const onFinish = (values: LoginDto) => {
     login({
       email: values.email,
@@ -33,6 +44,7 @@ const Login = () => {
       .then(async (res) => {
         api.defaults.headers.common.Authorization =
           'Bearer ' + res.data.access_token;
+        console.log(parseJwt(res.data.access_token));
         dispatch(setAuthState(true));
         const user = await getCurrentUserData();
         if (user) {
@@ -40,7 +52,8 @@ const Login = () => {
           dispatch(setUserFirstName(user.firstName));
           dispatch(setUserLastName(user.lastName));
           dispatch(setUserEmail(user.email));
-          router.replace('/');
+          dispatch(setUserIsAdmin(parseJwt(res.data.access_token).isAdmin));
+          router.push('/');
         }
       })
       .catch((err) => {
