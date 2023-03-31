@@ -15,16 +15,6 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  transformRequest: [
-    (data) => {
-      return JSON.stringify(data);
-    },
-  ],
-  transformResponse: [
-    (data) => {
-      return JSON.parse(data);
-    },
-  ],
 });
 
 let isRefreshing = false;
@@ -33,20 +23,18 @@ api.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     const { config, response } = error;
     const originalRequest = config;
-    console.log(Router.pathname);
-    console.log(originalRequest);
-    console.log(response);
+    let retValue;
     if (
-      (response?.status === 401 && !config.url?.includes('auth')) ||
+      (response?.status === 401 && !originalRequest.url?.includes('auth')) ||
       response?.detail?.code === 'token_not_valid'
     ) {
       if (!isRefreshing) {
         isRefreshing = true;
-        refresh()
-          .then((res) => {
+        await refresh()
+          .then(async (res) => {
             isRefreshing = false;
             const setHeaders = async () => {
               api.defaults.headers.common.Authorization =
@@ -54,11 +42,8 @@ api.interceptors.response.use(
               originalRequest.headers.Authorization =
                 'Bearer ' + res.data.access;
             };
-            return setHeaders().then(async () => {
-              const retry = await new Promise((resolve, reject) => {
-                resolve(api(originalRequest));
-              });
-              return retry;
+            return await setHeaders().then(async () => {
+              retValue = Promise.resolve(api(originalRequest));
             });
           })
           .catch((err) => {
@@ -67,8 +52,9 @@ api.interceptors.response.use(
             store.dispatch(setUserFirstName(null));
             store.dispatch(setUserLastName(null));
           });
+
+        return retValue;
       }
-      return Promise.resolve();
     } else if (response?.status === 403) {
       Router.replace('/');
       return Promise.reject(error);

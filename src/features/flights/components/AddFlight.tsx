@@ -23,9 +23,9 @@ const AddFlight = () => {
     });
   }, []);
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     values.date_of_departure;
-    addFlight({
+    await addFlight({
       route: selectedRoute,
       date_of_departure:
         values.date_of_departure + 'T' + values.time_of_departure + ':00Z',

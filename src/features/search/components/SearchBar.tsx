@@ -50,7 +50,6 @@ const SearchBar = ({ onDataChanged }: SearchBarProps) => {
     setSearchParams(temp);
   };
   function changeNumberOfTickets(value: number | null) {
-    console.log(value);
     setSearchParams({
       start_point: searchParams?.start_point,
       end_point: searchParams?.end_point,
