@@ -28,7 +28,6 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
   const [fetched, setFetched] = useState(false);
   const userEmail = useSelector(selectEmail);
   const { Content, Sider } = Layout;
-
   useEffect(() => {
     fetchData(searchParams).then((data) => {
       setFlights(data.results);
