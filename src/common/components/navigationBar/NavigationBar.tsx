@@ -4,6 +4,7 @@ import {
   setAuthState,
   setUserEmail,
   setUserFirstName,
+  setUserIsAdmin,
   setUserLastName,
 } from '@/common/store/slices/authSlice';
 import api from '@/common/utils/axiosInstance';
@@ -28,12 +29,13 @@ const NavigationBar = () => {
 
   const handleLogout = async () => {
     await logout().then(() => {
-      router.replace('/');
+      router.push('/');
       api.defaults.headers.common.Authorization = '';
       dispatch(setAuthState(false));
       dispatch(setUserEmail(null));
       dispatch(setUserFirstName(null));
       dispatch(setUserLastName(null));
+      dispatch(setUserIsAdmin(false));
     });
   };
 
@@ -61,7 +63,7 @@ const NavigationBar = () => {
       </div>
       <div className={styles.links}>
         <NavigationLink href="/" text="Home" />
-        {authState && <NavigationLink href="/flights" text="Flights" />}
+        {user.isAdmin && <NavigationLink href="/flights" text="Flights" />}
         {authState && <NavigationLink href="/tickets" text="My tickets" />}
       </div>
       <div className={styles.buttons}>

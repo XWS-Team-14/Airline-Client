@@ -8,6 +8,7 @@ export interface AuthState {
   userFirstName: string | null;
   userLastName: string | null;
   userEmail: string | null;
+  userIsAdmin: boolean;
 }
 
 const initialState: AuthState = {
@@ -15,6 +16,7 @@ const initialState: AuthState = {
   userFirstName: null,
   userLastName: null,
   userEmail: null,
+  userIsAdmin: false,
 };
 
 export const authSlice = createSlice({
@@ -32,6 +34,9 @@ export const authSlice = createSlice({
     },
     setUserEmail(state, action) {
       state.userEmail = action.payload;
+    },
+    setUserIsAdmin(state, action) {
+      state.userIsAdmin = action.payload;
     },
     reset(state, action?) {
       state.authState = false;
@@ -56,6 +61,7 @@ export const {
   setUserFirstName,
   setUserLastName,
   setUserEmail,
+  setUserIsAdmin,
   reset,
 } = authSlice.actions;
 
@@ -66,6 +72,7 @@ export const selectUser = (state: AppState) => {
     firstName: state.auth.userFirstName,
     lastName: state.auth.userLastName,
     email: state.auth.userEmail,
+    isAdmin: state.auth.userIsAdmin,
   } as User;
 };
 
@@ -74,5 +81,7 @@ export const selectFirstName = (state: AppState) => state.auth.userFirstName;
 export const selectLastName = (state: AppState) => state.auth.userLastName;
 
 export const selectEmail = (state: AppState) => state.auth.userEmail;
+
+export const selectIsAdmin = (state: AppState) => state.auth.userIsAdmin;
 
 export default authSlice.reducer;

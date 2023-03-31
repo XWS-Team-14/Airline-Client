@@ -1,9 +1,12 @@
 import Button from '@/common/components/button/Button';
 import Loading from '@/common/components/loading/Loading';
+import { selectUser } from '@/common/store/slices/authSlice';
 import Flight from '@/common/types/Flight';
 import { List, Modal } from 'antd';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deleteFlight, getFlights } from '../services/flight.service';
@@ -15,10 +18,15 @@ const Flights = () => {
   const [flights, setFlights] = useState<Flight[]>([]);
   const [fetched, setFetched] = useState(false);
   const [selected, setSelected] = useState<Flight | null>(null);
+  const user = useSelector(selectUser);
+  const router = useRouter();
 
   useEffect(() => {
+    if (!user.isAdmin) {
+      router.push('/');
+    }
     getAllFlights();
-  }, []);
+  }, [user]);
 
   const getAllFlights = async () => {
     await getFlights()

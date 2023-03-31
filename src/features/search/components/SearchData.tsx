@@ -44,7 +44,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
   function buyTickets(id: string, ticketNumber: number) {
     if (userEmail === null) {
       toast.error('You must log in to purchase a ticket.');
-      router.replace('/login');
+      router.push('/login');
       return;
     }
 
@@ -85,7 +85,7 @@ const SearchData = ({ searchParams }: SearchDataProps) => {
   };
 
   function handleOk() {
-    router.replace('/userTickets');
+    router.push('/userTickets');
   }
 
   return fetched ? (

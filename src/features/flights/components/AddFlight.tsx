@@ -35,7 +35,7 @@ const AddFlight = () => {
       id: '',
     })
       .then((res) => {
-        router.replace('/flights');
+        router.push('/flights');
       })
       .catch((err) => console.log(err));
   };
