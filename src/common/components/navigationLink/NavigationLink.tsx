@@ -13,7 +13,9 @@ const NavigationLink = ({ text, href }: NavigationLinkProps) => {
 
   return (
     <Link
+      shallow={true}
       href={href}
+      as={href}
       className={classNames(
         { [styles.active]: router.pathname === `${href}` },
         styles.link

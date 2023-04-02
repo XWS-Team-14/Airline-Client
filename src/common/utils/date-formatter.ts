@@ -1,3 +1,0 @@
-const format = () => '';
-
-export { format };

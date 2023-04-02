@@ -1,7 +1,23 @@
 @import '../../styles/variables.scss';
 
 .layout {
-  height: 100vh;
+  min-height: 80vh;
+  max-width: 1440px;
+  width: 100%;
+  margin: auto;
+  margin-top: 100px;
+}
+
+.header {
+  padding-top: 1rem;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  max-width: 1240px;
+  display: flex;
+  align-items: center;
+  height: 4rem;
 }
 
 .contentLayout {
@@ -9,17 +25,5 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-}
-
-@media (prefers-color-scheme: dark) {
-  .header {
-    background-color: $nav-bar-dark !important;
-    a {
-      color: white;
-    }
-  }
-
-  .contentLayout {
-    background-color: $content-dark;
-  }
+  flex-direction: column;
 }

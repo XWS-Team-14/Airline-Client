@@ -2,11 +2,11 @@
 
 .wrapper {
   display: flex;
-  max-width: 1440px;
   width: 100%;
   justify-content: space-between;
   align-items: center;
   margin-right: -1rem !important;
+  background-color: transparent;
 }
 
 .links {
@@ -19,12 +19,21 @@
 .logo {
   width: 33%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  cursor: pointer;
   a {
     display: flex;
     justify-content: center;
     align-items: center;
+    img {
+      user-drag: none;
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
   }
 }
 
@@ -32,11 +41,18 @@
   width: 33%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   button {
     margin-right: 0.5rem !important;
   }
 }
 
-@media (prefers-color-scheme: dark) {
+.user {
+  font-weight: 600;
+  font-size: 16px;
+  margin-right: 0.5rem;
+}
+
+.dropdown {
+  display: flex;
 }

@@ -16,6 +16,7 @@
   @extend %base;
   background-color: white;
   color: white;
+  font-weight: 600;
   background-image: linear-gradient(
     to right,
     $secondary-color 0%,
@@ -34,6 +35,15 @@
   );
 }
 
+.primary:disabled {
+  background-image: linear-gradient(
+    to right,
+    rgb(123, 128, 134) 0%,
+    rgb(163, 180, 192) 100%
+  );
+  cursor: not-allowed;
+}
+
 .secondary {
   @extend %base;
   color: black;
@@ -43,29 +53,24 @@
 .tertiary {
 }
 
-@media (prefers-color-scheme: dark) {
-  .secondary {
-    background-color: $secondary-color-dark-mode;
-    color: white;
-  }
+.danger {
+  @extend %base;
+  background-image: linear-gradient(
+    to right,
+    rgb(235, 85, 103) 0%,
+    rgb(255, 122, 171) 100%
+  );
+  color: white;
+  font-weight: 600;
+  box-shadow: rgba(255, 0, 0, 0.2) 0px 2px 15px;
+}
 
-  .secondary:hover {
-    background-color: $secondary-color-dark-mode-hover;
-  }
-
-  .primary {
-    background-image: linear-gradient(
-      to right,
-      $secondary-color 0%,
-      $primary-color-dark-mode 100%
-    );
-  }
-
-  .primary:hover {
-    background-image: linear-gradient(
-      to right,
-      $secondary-color 0%,
-      $primary-color-dark-mode-hover 100%
-    );
-  }
+.danger:hover {
+  text-decoration: none;
+  background-position: right center;
+  background-image: linear-gradient(
+    to right,
+    rgb(255, 126, 141) 0%,
+    rgb(255, 152, 190) 100%
+  );
 }

@@ -1,0 +1,47 @@
+.wrapper {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  a {
+    align-self: flex-end;
+  }
+  margin-bottom: 2rem;
+}
+.flightCard {
+  width: 1240px;
+  height: 10%;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  padding: 20px;
+  text-align: center;
+}
+
+.flightCard .flightCardContent {
+  text-align: center;
+  font-size: 16px;
+}
+
+.flightCardContent .cancelButton {
+  background-color: rgb(112, 107, 216);
+  color: aliceblue;
+  margin-left: 15px;
+}
+
+.flightForm {
+  width: 400px;
+  padding: 2rem;
+  margin-top: 3rem;
+  border-radius: 0.5rem;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 0;
+}
+
+.flightsTitle {
+  justify-self: flex-start;
+}
