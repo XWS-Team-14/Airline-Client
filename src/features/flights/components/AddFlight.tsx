@@ -17,7 +17,7 @@ const AddFlight = () => {
   const [form] = Form.useForm();
   const router = useRouter();
   const [routes, setRoutes] = useState<Route[]>([]);
-  const [selectedRoute, setSelectedRoute] = useState<Route>(null);
+  const [selectedRoute, setSelectedRoute] = useState<Route>();
 
   useEffect(() => {
     api.get('api/route/all/places/').then((res) => {
@@ -26,6 +26,7 @@ const AddFlight = () => {
   }, []);
 
   const onFinish = async (values: any) => {
+    if (selectedRoute === undefined) return;
     await addFlight({
       route: selectedRoute,
       date_of_departure: dayjs(values.date_of_departure).format(
