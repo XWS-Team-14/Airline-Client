@@ -1,25 +1,65 @@
 import Button from '@/common/components/button/Button';
-import { Divider, Input, List, Typography } from 'antd';
+import type { RadioChangeEvent } from 'antd';
+import {
+  Divider,
+  Input,
+  InputNumber,
+  List,
+  Modal,
+  Radio,
+  Typography,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { selectEmail } from '@/common/store/slices/authSlice';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import styles from '../styles/apikey.module.scss';
-import ApiKeyForm from './ApiKeyForm';
 
 const ApiKeyView = () => {
   const [userApiKey, setUserApiKey] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [validity, setValidity] = useState(null);
+  const [days, setDays] = useState(null);
+  const [needsUpdate, setNeedsUpdate] = useState(true);
+  const userEmail = useSelector(selectEmail);
+  const router = useRouter();
 
   useEffect(() => {
-    //fetch user's api key
+    if (userEmail !== null) {
+      router.replace('/');
+    }
   }, []);
+
+  useEffect(() => {
+    if (needsUpdate) {
+      //fetch user's api key
+      console.log('Calling backend');
+    }
+    setNeedsUpdate(false); //Soft refreshing page
+  }, [needsUpdate]);
+
+  const handleValidityChange = (e: RadioChangeEvent) => {
+    setValidity(e.target.value);
+  };
+
+  const canGenerate = () =>
+    (validity === 'days' && !!days) || validity === 'forever';
+
+  const handleDaysChange = (e: number | null) => {
+    setDays(e);
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
+    //backend call
     setIsModalOpen(false);
+    setNeedsUpdate(true); //soft refreshing a page
   };
 
   const handleCancel = () => {
@@ -62,11 +102,32 @@ const ApiKeyView = () => {
         ></Button>
 
         <div style={{ margin: '0 auto !important' }}></div>
-        <ApiKeyForm
+        <Modal
+          title="Create a new API key"
           open={isModalOpen}
-          handleCancel={handleCancel}
-          handleOk={handleOk}
-        />
+          onOk={handleOk}
+          centered
+          destroyOnClose
+          onCancel={handleCancel}
+          okText="Generate API key"
+          okButtonProps={{ disabled: !canGenerate() }}
+        >
+          <Radio.Group
+            className={styles.form}
+            onChange={handleValidityChange}
+            defaultValue={null}
+          >
+            <Radio value={'days'}>
+              Valid for{' '}
+              <InputNumber
+                onChange={handleDaysChange}
+                size="small"
+              ></InputNumber>{' '}
+              days
+            </Radio>
+            <Radio value={'forever'}>Valid forever</Radio>
+          </Radio.Group>
+        </Modal>
         {userApiKey !== '' && (
           <>
             <Divider />
