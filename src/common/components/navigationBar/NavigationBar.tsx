@@ -9,7 +9,7 @@ import {
 } from '@/common/store/slices/authSlice';
 import api from '@/common/utils/axiosInstance';
 import { logout } from '@/features/auth/services/auth.service';
-import { DownOutlined, LogoutOutlined } from '@ant-design/icons';
+import { DownOutlined, LockOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Dropdown, MenuProps } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -42,6 +42,15 @@ const NavigationBar = () => {
   const items: MenuProps['items'] = [
     {
       key: '1',
+      label: 'Create API Key',
+      onClick: () => router.push('/api-key'),
+      icon: <LockOutlined />,
+    },
+    {
+      type: 'divider',
+    },
+    {
+      key: '2',
       label: 'Log out',
       onClick: () => handleLogout(),
       icon: <LogoutOutlined />,

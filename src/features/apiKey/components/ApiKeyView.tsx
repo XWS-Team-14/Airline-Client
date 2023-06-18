@@ -28,10 +28,10 @@ const ApiKeyView = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (userEmail !== null) {
+    if (userEmail === null) {
       router.replace('/');
     }
-  }, []);
+  }, [userEmail]);
 
   useEffect(() => {
     if (needsUpdate) {
