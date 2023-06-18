@@ -41,7 +41,7 @@ const FlightInfo = ({
               <p className={styles.centerParagraph}>
                 <b>
                   {item.route.start_point.airport_city},{' '}
-                  {regionNames.of(item.route.start_point.country)}
+                  {item.route.start_point.country}
                 </b>{' '}
                 <br />
                 {item.route.start_point.airport_name} Airport
@@ -62,7 +62,7 @@ const FlightInfo = ({
               <p className={styles.centerParagraph}>
                 <b>
                   {item.route.end_point.airport_city},{' '}
-                  {regionNames.of(item.route.end_point.country)}
+                  {item.route.end_point.country}
                 </b>{' '}
                 <br />
                 {item.route.end_point.airport_name} Airport

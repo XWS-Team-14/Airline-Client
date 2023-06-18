@@ -42,9 +42,8 @@ const Login = () => {
       password: values.password,
     })
       .then(async (res) => {
-        api.defaults.headers.common.Authorization =
-          'Bearer ' + res.data.access_token;
-        console.log(parseJwt(res.data.access_token));
+        api.defaults.headers.common.Authorization = 'Bearer ' + res.data.access;
+        console.log(parseJwt(res.data.access));
         dispatch(setAuthState(true));
         const user = await getCurrentUserData();
         if (user) {
@@ -52,7 +51,7 @@ const Login = () => {
           dispatch(setUserFirstName(user.firstName));
           dispatch(setUserLastName(user.lastName));
           dispatch(setUserEmail(user.email));
-          dispatch(setUserIsAdmin(parseJwt(res.data.access_token).isAdmin));
+          dispatch(setUserIsAdmin(parseJwt(res.data.access).isAdmin));
           router.push('/');
         }
       })

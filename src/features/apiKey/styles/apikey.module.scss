@@ -1,0 +1,47 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.wrapper {
+  display: flex;
+  width: 1240px;
+  flex-direction: column;
+  h1,
+  h3 {
+    font-weight: 500;
+  }
+}
+
+.ui.page.modals.transition.visible {
+  display: flex !important;
+}
+
+.deleteLink:hover {
+  color: rgb(255, 103, 103);
+}
+
+.listItem {
+}
+
+.expiry {
+  font-size: 12px;
+  width: fit-content;
+}
+
+.form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  label {
+    margin-left: 0 !important;
+  }
+}
+
+.ant-modal {
+  margin: 0 auto !important;
+}
