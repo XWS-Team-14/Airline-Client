@@ -17,12 +17,15 @@ import { selectEmail } from '@/common/store/slices/authSlice';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import styles from '../styles/apikey.module.scss';
+import { createKey, getKey } from '../services/apikey.service';
+import KeyCreationDto from '../types/KeyCreationDto';
+import UserEmailDto from '../types/UserEmailDto';
 
 const ApiKeyView = () => {
   const [userApiKey, setUserApiKey] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [validity, setValidity] = useState(null);
-  const [days, setDays] = useState(null);
+  const [days, setDays] = useState<number|null>(null);
   const [needsUpdate, setNeedsUpdate] = useState(true);
   const userEmail = useSelector(selectEmail);
   const router = useRouter();
@@ -37,6 +40,18 @@ const ApiKeyView = () => {
     if (needsUpdate) {
       //fetch user's api key
       console.log('Calling backend');
+      var dto : UserEmailDto = {
+        user_email: userEmail,
+      }
+      console.log(dto)
+      getKey(userEmail).then(
+        (res)=>{
+          if (res.data.APIkey != null){
+            setUserApiKey(res.data.APIkey)
+            setValidity(res.data.Validity)
+          }
+        }
+      )
     }
     setNeedsUpdate(false); //Soft refreshing page
   }, [needsUpdate]);
@@ -58,6 +73,22 @@ const ApiKeyView = () => {
 
   const handleOk = () => {
     //backend call
+    var date = new Date();
+    date.setDate(date.getDate() + days!);
+    var dto : KeyCreationDto = {
+      user_email: userEmail,
+      valid_due: date.toISOString().split('T')[0]
+    }
+    console.log(dto)
+    createKey(dto).then(
+      (res)=>{
+        if (res.data.APIkey != null){
+          console.log(res)
+          setUserApiKey(res.data.APIkey)
+          setValidity(res.data.Validity)
+        }
+      }
+    )
     setIsModalOpen(false);
     setNeedsUpdate(true); //soft refreshing a page
   };
@@ -159,10 +190,10 @@ const ApiKeyView = () => {
                 <Input.Password
                   bordered={false}
                   style={{ width: 'fit-content' }}
-                  value="9ee1325d-3024-4b56-a86f-e154238a2f72" //fetched api key
+                  value={userApiKey} //fetched api key
                   readOnly
                 ></Input.Password>
-                <div className={styles.expiry}>Valid until July 28, 2023</div>
+                <div className={styles.expiry}>Valid until :{validity}</div>
               </List.Item>
             </List>
           </>
